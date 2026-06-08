@@ -41,19 +41,30 @@
             .menu-toggle { display: block !important; }
             .nav-bar { 
                 display: flex !important; 
+                flex-direction: row !important;
                 justify-content: space-between !important; 
                 align-items: center !important;
-                gap: 8px;
+                flex-wrap: nowrap !important;
             }
             .logo { 
                 flex: 1 !important; 
                 text-align: center !important;
+                min-width: 0 !important;
             }
-            .logo h1 { font-size: 1.1rem; }
-            .logo p { font-size: 0.6rem; }
-            .menu-toggle { order: 1; }
+            .logo h1 { font-size: 1rem !important; white-space: nowrap !important; }
+            .logo p { font-size: 0.5rem !important; white-space: nowrap !important; }
+            .menu-toggle { order: 1; flex-shrink: 0; }
             .logo { order: 2; }
-            .nav-bar > div:last-child { order: 3; }
+            .nav-bar > div:last-child { 
+                order: 3; 
+                flex-shrink: 0;
+                display: flex;
+                gap: 2px;
+            }
+            .nav-bar > div:last-child button { 
+                font-size: 0.65rem !important; 
+                padding: 2px 4px !important;
+            }
         }
         @media (min-width: 681px) {
             .mobile-menu { display: none !important; }
