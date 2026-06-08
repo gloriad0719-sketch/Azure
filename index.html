@@ -6,6 +6,45 @@
     <title>以闪亮之名 · 限时阁百科 | v2026.06.08</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.2s ease; }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #b77d5e;
+            padding: 4px 8px;
+        }
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px 0;
+            border-top: 1px solid #f0e4d4;
+            margin-top: 8px;
+        }
+        .mobile-menu a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #5e4b38;
+            padding: 8px 12px;
+            background: #fffbf5;
+            border-radius: 28px;
+            text-align: center;
+        }
+        .mobile-menu a.active {
+            background: #d9aa8b;
+            color: white;
+        }
+        @media (max-width: 680px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: block; }
+            .nav-bar { justify-content: space-between; align-items: center; }
+            .logo { flex: 1; }
+        }
+        @media (min-width: 681px) {
+            .mobile-menu { display: none !important; }
+        }
         body { background: #f8f6f2; font-family: 'Segoe UI', Roboto, sans-serif; color: #2e2c2a; line-height: 1.45; padding: 0 0 40px 0; }
         .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
         .site-header { background: rgba(255,255,245,0.96); backdrop-filter: blur(8px); box-shadow: 0 2px 12px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #f0e4d4; }
@@ -111,7 +150,26 @@
     </style>
 </head>
 <body>
-<div class="site-header"><div class="container nav-bar"><div class="logo"><h1>✨ 以闪亮之名·阁录</h1><p>v2026.06.08.01 | 新增北京时间校准</p></div><div class="nav-links"><a data-page="home" class="nav-item active">首页</a><a data-page="five" class="nav-item">五星阁</a><a data-page="six" class="nav-item">六星阁</a><a data-page="predict" class="nav-item">复刻预测</a><a data-page="changelog" class="nav-item">更新日志</a></div><div style="display:flex; gap:10px; margin-left:auto;"><button id="exportDataBtn" style="background:#efe2d4; border:none; border-radius:28px; padding:6px 16px; cursor:pointer;">📤 导出</button><button id="importDataBtn" style="background:#efe2d4; border:none; border-radius:28px; padding:6px 16px; cursor:pointer;">📥 导入</button><input type="file" id="importFileInput" accept=".json" style="display:none;"></div></div></div>
+<div class="site-header">
+    <div class="container nav-bar">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="logo">
+            <h1>✨ 以闪亮之名·阁录</h1>
+            <p>v2026.06.08.01 | 新增北京时间校准</p>
+        </div>
+        <div class="nav-links">
+            <a data-page="home" class="nav-item active">首页</a>
+            <a data-page="five" class="nav-item">五星阁</a>
+            <a data-page="six" class="nav-item">六星阁</a>
+            <a data-page="predict" class="nav-item">复刻预测</a>
+            <a data-page="changelog" class="nav-item">更新日志</a>
+        </div>
+        <div style="display:flex; gap:4px;">
+            <button id="exportDataBtn" style="background:transparent; border:none; border-radius:20px; padding:4px 8px; cursor:pointer; font-size:0.8rem; color:#b77d5e;">📤导出</button>
+            <button id="importDataBtn" style="background:transparent; border:none; border-radius:20px; padding:4px 8px; cursor:pointer; font-size:0.8rem; color:#b77d5e;">📥导入</button>
+            <input type="file" id="importFileInput" accept=".json" style="display:none;">
+        </div>
+</div>
 <div class="container" id="app-root"></div>
 <div class="go-top" id="goTopBtn" title="回到顶部">↑</div>
 <footer><p>✨ 所有开阁时间均为北京时间（UTC+8）| 点击卡片可编辑个人进度| 制作者：堕落母神</p></footer>
@@ -606,6 +664,7 @@
             };
         }
     }
+  
     // 自定义弹窗（不遮挡网页内容，需点确定关闭）
     function showModal(message, onConfirm) {
         // 创建遮罩层（完全透明，不遮挡视觉）
@@ -630,6 +689,23 @@
             overlay.remove();
             if (onConfirm) onConfirm();
         };
+    }
+      // ========== 手机端汉堡菜单 ==========
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (menuToggle && mobileMenu) {
+        menuToggle.onclick = () => {
+            if (mobileMenu.style.display === 'flex') {
+                mobileMenu.style.display = 'none';
+            } else {
+                mobileMenu.style.display = 'flex';
+            }
+        };
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.onclick = () => {
+                mobileMenu.style.display = 'none';
+            };
+        });
     }
     function renderCurrent(){ // 首次访问弹窗（只弹出一次）
     const hasVisited = localStorage.getItem("has_visited_before");
