@@ -690,15 +690,19 @@
             if (onConfirm) onConfirm();
         };
     }
-      // ========== 手机端汉堡菜单 ==========
+    // ========== 手机端汉堡菜单 ==========
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
     if (menuToggle && mobileMenu) {
+        console.log("汉堡菜单已找到");  // 调试
         menuToggle.onclick = () => {
+            console.log("按钮被点击");  // 调试
             if (mobileMenu.style.display === 'flex') {
                 mobileMenu.style.display = 'none';
+                console.log("菜单关闭");
             } else {
                 mobileMenu.style.display = 'flex';
+                console.log("菜单打开");
             }
         };
         mobileMenu.querySelectorAll('a').forEach(link => {
@@ -706,6 +710,8 @@
                 mobileMenu.style.display = 'none';
             };
         });
+    } else {
+        console.log("未找到菜单元素");  // 调试
     }
     function renderCurrent(){ // 首次访问弹窗（只弹出一次）
     const hasVisited = localStorage.getItem("has_visited_before");
