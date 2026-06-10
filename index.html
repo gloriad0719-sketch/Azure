@@ -262,7 +262,7 @@
         { id:"six_25", star:6, officialName:"寅魄渡世·寅雪渡尘", nick:"白虎", firstStart:"2026-02-03", firstEnd:"2026-02-24", reissue:[], totalParts:13, signature:"白虎灵魄", decomposeItems:["【连衣裙】廷光秘匙","【翅膀】萤森披梦","【悬浮】瑞驹承曦","【背景】海天一色"] },
         { id:"six_26", star:6, officialName:"蜕梦神华·宙瞳之则", nick:"美杜莎", firstStart:"2026-03-17", firstEnd:"2026-04-07", reissue:[], totalParts:14, signature:"石化之瞳", decomposeItems:["【连衣裙】浮生千景","【翅膀】琉光织梦","【悬浮】糯云团子","【背景】藏花于海"] },
         { id:"six_27", star:6, officialName:"双生花契·无暇花蕊", nick:"百合", firstStart:"2026-04-28", firstEnd:"2026-05-19", reissue:[], totalParts:13, signature:"双生花杖", decomposeItems:["【连衣裙】仙境茶歇","【手持】好运魔法","【翅膀】妖精的葬礼","【背景】遗落伊甸"] },
-        { id:"six_28", star:6, officialName:"蕃神春醺·梦洄蕃野", nick:"小羊", firstStart:"2026-06-09", firstEnd:"2026-06-30", reissue:[], totalParts:14, signature:"月光曼影", decomposeItems:["【连衣裙】月光曼影","【手持】紫焰幽灵","【悬浮】星悬浮光","【背景】春醺梦境"] }
+        { id:"six_28", star:6, officialName:"蕃神春醺·梦洄蕃野", nick:"小羊", firstStart:"2026-06-09", firstEnd:"2026-06-30", reissue:[], totalParts:14, signature:"月光曼影", decomposeItems:["【连衣裙】月光曼影","【手持】紫焰幽灵","【悬浮】星悬浮光","【背景】荷风灯影"] }
     ];
     const fiveStarData = [
         { id:"five_1", star:5, officialName:"月下盛筵", nick:"敦煌华庭", firstStart:"2023-04-13", firstEnd:"2023-05-04", reissue:["2024-08-15","2025-09-23"], sets:["卧月灼莲","盛世华庭"], setParts:[11,10], signature:"飞天飘带", decomposeItems:["【发型】缭乱花篱","【连衣裙】月笼金沙","【手持】良辰花色"] },
@@ -334,7 +334,7 @@
         { date: "2026-06-08", content: "增加更新日志弹窗" },
         { date: "2026-06-08", content: "添加制作人员名单" },
         { date: "2026-06-06", content: "基于设备当前时间自动迭代" },
-        { date: "2026-06-06", content: "新增用户确认区域（USER_CONFIRMED），可手动覆盖复刻预测" },
+        { date: "2026-06-06", content: "新增后台确认区域（USER_CONFIRMED），可手动覆盖复刻预测" },
         { date: "2026-06-06", content: "下个新阁开启时间 = 当前新阁结束日" },
         { date: "2026-06-06", content: "强制指定复刻在首页正确显示（进行中/即将开启）" },
         { date: "2026-06-06", content: "复刻期间从分类池排除，结束后自动回归" }
@@ -917,11 +917,22 @@
         bindGlobalSearch(); 
         bindCurrentCardJump(); 
         setupImportExport();
-    document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active')); document.querySelector(`.nav-links a[data-page="${currentPage}"]`)?.classList.add('active');// 手机菜单高亮同步
+    document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active')); 
+    document.querySelector(`.nav-links a[data-page="${currentPage}"]`)?.classList.add('active');
+    // 手机菜单高亮同步
     document.querySelectorAll('.mobile-menu a').forEach(a=>a.classList.remove('active')); 
-    document.querySelector(`.mobile-menu a[data-page="${currentPage}"]`)?.classList.add('active'); return; }
+    document.querySelector(`.mobile-menu a[data-page="${currentPage}"]`)?.classList.add('active');
+    
+    // 重新绑定所有 data-page 元素（包括动态生成的）
+    document.querySelectorAll('[data-page]').forEach(a=>{
+        a.removeEventListener('click', a._clickHandler);
+        a._clickHandler = (e) => { e.preventDefault(); setPage(a.getAttribute('data-page')); };
+        a.addEventListener('click', a._clickHandler);
+    });
+    
+    return; 
+}
     function setPage(page){ currentPage=page; currentSearch=""; renderCurrent(); }
-    document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(a=>a.addEventListener('click',(e)=>{ e.preventDefault(); setPage(a.getAttribute('data-page')); }));
     const logoHome = document.getElementById('logoHome');
     if (logoHome) {
         logoHome.onclick = () => {
