@@ -37,6 +37,23 @@
             color: white;
             transform: scale(0.98);
         }
+          .notice-bar {
+            background: #eceff1;
+            border-bottom: 1px solid #f0dcc8;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            color: #b77d5e;
+            text-align: center;
+        }
+        .notice-bar marquee {
+            width: 100%;
+        }
+        @media (max-width: 680px) {
+            .notice-bar {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+            }
+        }
         @media (max-width: 680px) {
             .nav-links { display: none !important; }
             .menu-toggle { display: block !important; }
@@ -203,6 +220,12 @@
         <a data-page="predict" class="nav-item">复刻预测</a>
         <a data-page="changelog" class="nav-item">更新日志</a>
     </div>
+</div>
+  <div class="notice-bar">
+    <marquee scrollamount="3" onmouseover="this.stop()" onmouseout="this.start()">
+        📢 提示：首页新阁及复刻阁刷新轮换时间为北京时间早上8点 &nbsp;&nbsp;|&nbsp;&nbsp;
+        📞 BUG或改进建议请联系🍠陷阱
+    </marquee>
 </div>
 <div class="container" id="app-root"></div>
 <div class="go-top" id="goTopBtn" title="回到顶部">↑</div>
