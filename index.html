@@ -955,7 +955,7 @@
                 initCarousel(`carousel_${data.id}`, imgData.url1, imgData.url2, imgData.name1, imgData.name2);
             }, 50);
         }     
-                        modalContent.innerHTML = `${imgHtml}<h2>${data.officialName} (${data.nick})</h2><div class="modal-detail-block"><strong>📅 首次</strong> ${data.firstStart}~${data.firstEnd}<br><strong>🔄 复刻</strong> ${data.reissue.length?data.reissue.map(r=>`📌 ${r}`).join('<br>'):'暂无'}</div><div class="decom-full-list"><strong>🏪 分解商店清单</strong><br/>${data.decomposeItems.map(i=>`<p>✨ ${i}</p>`).join('')}</div><div class="modal-detail-block"><strong>📦 ${data.star===5?'双套部件数':''}</strong> ${data.star===5?data.sets.map((s,i)=>`${s}:${data.setParts[i]}件`).join(' / '):`总部件 ${data.totalParts}件`}<br/><strong>✨ 标志散件</strong> ${data.signature}</div>`; 
+                        modalContent.innerHTML = `${imgHtml}<h2>${data.officialName} (${data.nick})</h2><div class="modal-detail-block"><strong>📅 首次</strong> ${data.firstStart}~${data.firstEnd}<br><strong>🔄 复刻</strong> ${data.reissue.length?data.reissue.map(r=>`📌 ${r}`).join('<br>'):'暂无'}</div><div class="decom-full-list"><strong>🏪 分解商店清单</strong><br/>${data.decomposeItems.map(i=>`<p>✨ ${i}</p>`).join('')}</div><div class="modal-detail-block"><strong>📦 ${data.star===5?'双套部件数':''}</strong><span style="font-size:0.85rem;"> ${data.star===5?data.sets.map((s,i)=>`${s}:${data.setParts[i]}件`).join(' / '):`总部件 ${data.totalParts}件`}</div>`; 
                         modal.style.display = "flex"; 
                     } 
                 }); 
