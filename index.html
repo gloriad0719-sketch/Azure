@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>以闪亮之名 · 限时阁百科 | v2026.06.11</title>
+    <title>以闪亮之名 · 限时阁百科 | v2026.06.10</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.2s ease; }
         .menu-toggle {
@@ -211,7 +211,7 @@
         <button class="menu-toggle" id="menuToggle">☰</button>
         <div class="logo"id="logoHome" style="cursor:pointer;">
             <h1>✨ 以闪亮之名·阁录</h1>
-            <p>v2026.06.11.01 | 新增拓色收集+分解商店选择</p>
+            <p>v2026.06.10.03 | 新增顶部滚动条</p>
         </div>
         <div class="nav-links">
             <a data-page="home" class="nav-item active">首页</a>
@@ -337,7 +337,6 @@
     const SHOW_WRONG_GUESS = false;
     // 更新日志数据（最新在上，前4条显示在首页和弹窗）
     const CHANGELOG_DATA = [
-        { date: "2026-06-11", content: "新增拓色收集、分解商店可选择" },
         { date: "2026-06-10", content: "修复首页底部查看全部按钮失效的问题" },
         { date: "2026-06-10", content: "新增置顶信息滚动条（悬停/点击暂停，手机端点击其他位置可取消暂停）" },
         { date: "2026-06-08", content: "优化更新日志数据显示、新增后台<猜错啦！>版块关闭功能" },
@@ -866,7 +865,95 @@
                     const id = card.getAttribute('data-gacha-id'); 
                     const data = gachaData.find(g=>g.id===id); 
                     if(data){ 
-                        modalContent.innerHTML = `<h2>${data.officialName} (${data.nick})</h2><div class="modal-detail-block"><strong>📅 首次</strong> ${data.firstStart}~${data.firstEnd}<br><strong>🔄 复刻</strong> ${data.reissue.length?data.reissue.map(r=>`📌 ${r}`).join('<br>'):'暂无'}</div><div class="decom-full-list"><strong>🏪 分解商店清单</strong><br/>${data.decomposeItems.map(i=>`<p>✨ ${i}</p>`).join('')}</div><div class="modal-detail-block"><strong>📦 ${data.star===5?'双套部件数':''}</strong> ${data.star===5?data.sets.map((s,i)=>`${s}:${data.setParts[i]}件`).join(' / '):`总部件 ${data.totalParts}件`}<br/><strong>✨ 标志散件</strong> ${data.signature}</div>`; 
+    // 获取图片URL（支持六星和五星）
+    const getImageUrl = (gachaData) => {
+        // 六星图片映射
+        const sixStarMap = {
+            "海王": "haiwang.jpeg", "赋雪": "fuxue.jpeg", "爱神": "aishen.jpeg", "嫦娥": "change.jpeg",
+            "鸢尾": "yuanwei.jpeg", "发条": "fatiao.jpeg", "蜀绣": "shuxiu.jpeg", "龙母": "longmu.jpeg",
+            "九尾": "jiuwei.jpeg", "玛丽苏": "malisu.jpeg", "傀儡": "kuilei.jpeg", "人鱼": "renyu.jpeg",
+            "白泽": "baize.jpeg", "阁楼": "gelou.jpeg", "独角兽": "dujiaoshou.jpeg", "青鸾": "qingluan.jpeg",
+            "吸血鬼": "xixuegui.jpeg", "竖琴": "shuqin.jpeg", "圣域": "shengyu.jpeg", "傩母": "nuomu.jpeg",
+            "大月神": "shouyue.jpeg", "洋娃娃": "yangwawa.jpeg", "不死鸟": "businiao.jpeg", "玛丽": "mali.jpeg",
+            "白虎": "baihu.jpeg", "美杜莎": "meidusha.jpeg", "百合": "baihe.jpeg", "小羊": "xiaoyang.jpeg"
+        };
+        
+        // 五星图片映射（按套装名称）
+        const fiveStarMap = {
+            "卧月灼莲": "dunhuang.jpeg", "盛世华庭": "huating.jpeg",
+            "莫佳娜的礼物": "xiaomonv.jpeg", "倪克斯夜蔷": "damonv.jpeg",
+            "绒兔心语": "tuzi.jpeg", "酣竹滚滚": "xiongmao.jpeg",
+            "鸾俦夙愿": "zhonghun1.jpeg", "痴梦无诉": "zhonghun2.jpeg",
+            "幻涟缀羽": "jingling.jpeg", "月银九歌": "miaojiang.jpeg",
+            "阿芙洛之绪": "meishen.jpeg", "湖心旋舞": "balei.jpeg",
+            "驯鹿精灵": "xiaolu.jpeg", "樱雪春祈": "hefu.jpeg",
+            "沉梦魔咒": "moo.jpeg", "金翎浮年": "kongque.jpeg",
+            "酷巧甜心": "kuluomi.jpeg", "告白奶芙": "yuguigou.jpeg",
+            "I号机": "Ihaoji.jpeg", "吟游沙语": "jipusai.jpeg",
+            "雪色蝶舞": "hudie.jpeg", "影幕华宴": "guifu.jpeg",
+            "虚数戏梦": "qipao.jpeg", "恒星纪元": "junguan.jpeg",
+            "幻月神裁": "yueshen.jpeg", "赦罪永寐": "emoy.jpeg",
+            "噤声夜谭": "tideng.jpeg", "蜜色蚀心": "baobao.jpeg",
+            "辰祈夜谭": "wuniang.jpeg", "星钥寻踪": "yaoshi.jpeg",
+            "绯雪萦心": "meiyangyang.jpeg", "金羚曜日": "lingyang.jpeg",
+            "甘戮天使": "jiandao.jpeg", "魔猎执事": "shuangqiang.jpeg",
+            "芯璃絮语": "shuijing.jpeg", "枫露晨祷": "dizheng.jpeg",
+            "绯海掠影": "haidao.jpeg", "禁忌咒魇": "shuimeiren.jpeg",
+            "绯蕾魇丝": "zhizhu.jpeg", "血誓荆棘": "yihou.jpeg",
+            "雪映梅妆": "zhenhuan.jpeg", "凤仪万千": "huafei.jpeg",
+            "冥焰熔骨": "emo.jpeg", "羽陨圣卉": "shigao.jpeg",
+            "透明序曲": "xiaoying2.jpeg", "封印解除": "xiaoying1.jpeg",
+            "幽骨蚀光": "miao2.jpeg", "冰璃琉心": "xuehua.jpeg",
+            "星蛾灼穹": "feie.jpeg", "翎羽焚灯": "gudeng.jpeg",
+            "绮野仙踪": "ningfu.jpeg", "兔铃谣梦": "tuou.jpeg",
+            "恋恋香颂": "dangao.jpeg", "零号塞壬": "saiborenyu.jpeg",
+            "籍梦载年": "shujuan.jpeg", "玄凰引昼": "fenghuang.jpeg"
+        };
+        
+        if (gachaData.star === 6) {
+            const fileName = sixStarMap[gachaData.nick];
+            return { type: 'single', url: fileName ? `https://raw.githubusercontent.com/gloriad0719-sketch/Azure/main/image/${fileName}` : null };
+        } else {
+            // 五星阁：返回两套图片
+            const set1Name = gachaData.sets?.[0] || '';
+            const set2Name = gachaData.sets?.[1] || '';
+            const url1 = fiveStarMap[set1Name] ? `https://raw.githubusercontent.com/gloriad0719-sketch/Azure/main/image/${fiveStarMap[set1Name]}` : null;
+            const url2 = fiveStarMap[set2Name] ? `https://raw.githubusercontent.com/gloriad0719-sketch/Azure/main/image/${fiveStarMap[set2Name]}` : null;
+            return { type: 'double', url1, url2, name1: set1Name, name2: set2Name };
+        }
+    };
+    
+    const imgData = getImageUrl(data);
+    let imgHtml = '';
+    if (data.star === 6 && imgData.url) {
+        // 六星：单张图片
+        imgHtml = `<div style="text-align:center; margin:12px 0;">
+            <img src="${imgData.url}" style="max-width:100%; border-radius:16px; max-height:300px;" alt="${data.nick}">
+        </div>`;
+    } else if (data.star === 5 && imgData.type === 'double') {
+        // 五星：可滑动翻页
+        const imgId = `carousel_${data.id}`;
+        imgHtml = `
+        <div style="position:relative; margin:12px 0; touch-action: pan-y pinch-zoom;">
+            <div id="${imgId}" style="position:relative; min-height:250px; overflow:hidden;">
+                <div style="text-align:center;">
+                    <img src="${imgData.url1}" style="max-width:100%; border-radius:16px; max-height:250px; cursor:pointer;" id="${imgId}_img" ondragstart="return false">
+                    <div style="font-size:0.8rem; color:#b77d5e; margin-top:8px; font-weight:500;" id="${imgId}_name">${imgData.name1}</div>
+                </div>
+            </div>
+            <button class="carousel-prev" data-id="${imgId}" data-url1="${imgData.url1}" data-url2="${imgData.url2}" data-name1="${imgData.name1}" data-name2="${imgData.name2}" style="position:absolute; left:5px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.4); color:white; border:none; border-radius:50%; width:36px; height:36px; cursor:pointer; font-size:1.2rem; display:flex; align-items:center; justify-content:center;">❮</button>
+            <button class="carousel-next" data-id="${imgId}" data-url1="${imgData.url1}" data-url2="${imgData.url2}" data-name1="${imgData.name1}" data-name2="${imgData.name2}" style="position:absolute; right:5px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.4); color:white; border:none; border-radius:50%; width:36px; height:36px; cursor:pointer; font-size:1.2rem; display:flex; align-items:center; justify-content:center;">❯</button>
+            <div style="text-align:center; margin-top:8px;">
+                <span class="dot" data-id="${imgId}" data-index="0" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#d9aa8b; margin:0 4px;"></span>
+                <span class="dot" data-id="${imgId}" data-index="1" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#ddd; margin:0 4px;"></span>
+            </div>
+        </div>`;
+    }                   if (data.star === 5 && imgData.type === 'double') {
+            setTimeout(() => {
+                initCarousel(`carousel_${data.id}`, imgData.url1, imgData.url2, imgData.name1, imgData.name2);
+            }, 50);
+        }     
+                        modalContent.innerHTML = `${imgHtml}<h2>${data.officialName} (${data.nick})</h2><div class="modal-detail-block"><strong>📅 首次</strong> ${data.firstStart}~${data.firstEnd}<br><strong>🔄 复刻</strong> ${data.reissue.length?data.reissue.map(r=>`📌 ${r}`).join('<br>'):'暂无'}</div><div class="decom-full-list"><strong>🏪 分解商店清单</strong><br/>${data.decomposeItems.map(i=>`<p>✨ ${i}</p>`).join('')}</div><div class="modal-detail-block"><strong>📦 ${data.star===5?'双套部件数':''}</strong> ${data.star===5?data.sets.map((s,i)=>`${s}:${data.setParts[i]}件`).join(' / '):`总部件 ${data.totalParts}件`}<br/><strong>✨ 标志散件</strong> ${data.signature}</div>`; 
                         modal.style.display = "flex"; 
                     } 
                 }); 
@@ -1022,6 +1109,78 @@
             overlay.remove();
             if (onConfirm) onConfirm();
         };
+    }
+    // 五星图片切换逻辑（箭头点击 + 左右滑动）
+    function initCarousel(imgId, url1, url2, name1, name2) {
+        const img = document.getElementById(imgId + '_img');
+        const nameDiv = document.getElementById(imgId + '_name');
+        const prevBtn = document.querySelector(`.carousel-prev[data-id="${imgId}"]`);
+        const nextBtn = document.querySelector(`.carousel-next[data-id="${imgId}"]`);
+        const dots = document.querySelectorAll(`.dot[data-id="${imgId}"]`);
+        
+        let currentIndex = 0; // 0:第一套, 1:第二套
+        const urls = [url1, url2];
+        const names = [name1, name2];
+        
+        function updateCarousel(index) {
+            if (index < 0) index = 0;
+            if (index > 1) index = 1;
+            currentIndex = index;
+            img.src = urls[currentIndex];
+            nameDiv.textContent = names[currentIndex];
+            dots.forEach((dot, i) => {
+                dot.style.background = i === currentIndex ? '#d9aa8b' : '#ddd';
+            });
+        }
+        
+        // 箭头点击事件
+        if (prevBtn) {
+            prevBtn.onclick = (e) => {
+                e.stopPropagation();
+                updateCarousel(currentIndex === 0 ? 1 : 0);
+            };
+        }
+        if (nextBtn) {
+            nextBtn.onclick = (e) => {
+                e.stopPropagation();
+                updateCarousel(currentIndex === 0 ? 1 : 0);
+            };
+        }
+        
+        // 左右滑动支持（触摸滑动）
+        let startX = 0;
+        let endX = 0;
+        const container = document.getElementById(imgId);
+        container.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+        container.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            const diff = endX - startX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    // 向右滑：切换到上一张（实际是另一套）
+                    updateCarousel(currentIndex === 0 ? 1 : 0);
+                } else {
+                    // 向左滑：切换到下一张
+                    updateCarousel(currentIndex === 0 ? 1 : 0);
+                }
+            }
+        });
+        
+        // 鼠标滑动支持（电脑端）
+        let mouseStartX = 0;
+        container.addEventListener('mousedown', (e) => {
+            mouseStartX = e.clientX;
+            e.preventDefault();
+        });
+        container.addEventListener('mouseup', (e) => {
+            const mouseEndX = e.clientX;
+            const diff = mouseEndX - mouseStartX;
+            if (Math.abs(diff) > 50) {
+                updateCarousel(currentIndex === 0 ? 1 : 0);
+            }
+        });
     }
     // ========== 手机端汉堡菜单 ==========
     const menuToggle = document.getElementById('menuToggle');
