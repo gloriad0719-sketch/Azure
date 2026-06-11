@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>以闪亮之名 · 限时阁百科 | v2026.06.10</title>
+    <title>以闪亮之名 · 限时阁百科 | v2026.06.11</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.2s ease; }
         .menu-toggle {
@@ -130,7 +130,21 @@
         .decom-shop { background: #fef8f0; padding: 10px 14px; border-radius: 24px; margin: 12px 0 4px; font-size: 0.75rem; }
         .decom-shop strong { color: #c27e55; }
         .decom-item-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-        .decom-tag { background: white; border-radius: 24px; padding: 4px 12px; font-size: 0.7rem; border: 1px solid #f1e0d2; color: #825e46; }
+        .decom-tag { 
+            background: white; 
+            border-radius: 24px; 
+            padding: 4px 12px; 
+            font-size: 0.7rem; 
+            border: 1px solid #f1e0d2; 
+            color: #825e46; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+        }
+        .decom-tag.decom-obtained {
+            background: #d9aa8b;
+            color: white;
+            border-color: #d9aa8b;
+        }
         .progress-panel { background: #f5f0ea; border-radius: 24px; padding: 14px 16px; margin: 12px 20px 20px; border: 1px solid #e8ddd0; }
         .progress-title { font-size: 0.75rem; font-weight: 600; color: #9b7b64; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
         .progress-status-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
@@ -197,7 +211,7 @@
         <button class="menu-toggle" id="menuToggle">☰</button>
         <div class="logo"id="logoHome" style="cursor:pointer;">
             <h1>✨ 以闪亮之名·阁录</h1>
-            <p>v2026.06.10.03 | 新增顶部滚动条</p>
+            <p>v2026.06.11.01 | 新增拓色收集+分解商店选择</p>
         </div>
         <div class="nav-links">
             <a data-page="home" class="nav-item active">首页</a>
@@ -323,6 +337,7 @@
     const SHOW_WRONG_GUESS = false;
     // 更新日志数据（最新在上，前4条显示在首页和弹窗）
     const CHANGELOG_DATA = [
+        { date: "2026-06-11", content: "新增拓色收集、分解商店可选择" },
         { date: "2026-06-10", content: "修复首页底部查看全部按钮失效的问题" },
         { date: "2026-06-10", content: "新增置顶信息滚动条（悬停/点击暂停，手机端点击其他位置可取消暂停）" },
         { date: "2026-06-08", content: "优化更新日志数据显示、新增后台<猜错啦！>版块关闭功能" },
@@ -350,17 +365,98 @@
     window.onclick = (e) => { if(e.target === modal) closeModal(); };
     document.getElementById("goTopBtn").addEventListener("click", () => { window.scrollTo({ top: 0, behavior: "smooth" }); });
     function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m=> m==='&'?'&amp;': m==='<'?'&lt;':'&gt;'); }
-    function renderDecomTags(items){ if(!items?.length) return '<div>暂无数据</div>'; return `<div class="decom-item-list">${items.slice(0,4).map(i=>`<span class="decom-tag">${i}</span>`).join('')}${items.length>4?'<span class="decom-tag">+更多</span>':''}</div>`; }
+    function renderDecomTags(gachaId, decomposeItems, store) {
+        if(!decomposeItems?.length) return '<div>暂无数据</div>';
+        const prog = getProgress(gachaId, store);
+        const obtainedDecom = prog.obtainedDecom || [];
+        return `<div class="decom-item-list">${decomposeItems.map((item, idx) => `
+            <span class="decom-tag ${obtainedDecom.includes(item) ? 'decom-obtained' : ''}" data-decom-name="${item.replace(/"/g, '&quot;')}">${item}</span>
+        `).join('')}</div>`;
+    }
     const fiveStatusMap = { 'want_set1':'🎯 我要第一套！', 'want_set2':'🎯 我要第二套！', 'none':'💤 我都不要！', 'both':'✨ 我都要！', 'all_color':'🎨 我要全拓色！', 'all_pose':'💃 我要全特姿！' };
     const sixStatusMap = { 'done':'✅ 抽完啦！', 'want':'🎯 抽齐她！', 'skip':'💤 我不想要！', 'partial':'✨ 我想要其中一个！', 'color':'🎨 我要拓色！', 'pose':'💃 我要特姿！' };
     function loadProgress() { const saved = localStorage.getItem(STORAGE_KEY); try { return saved ? JSON.parse(saved) : {}; } catch(e){ return {}; } }
     function saveProgress(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
-    function getProgress(gachaId, store) { return store[gachaId] || { status: "", customNote: "", setCounts: [], collected: 0, isEditing: false }; }
-    function renderFiveReadonlySummary(prog, sets, setParts) { const statusDisplay = fiveStatusMap[prog.status] || '未设置目标'; const setCounts = prog.setCounts || [0,0]; return `<div class="readonly-summary"><div class="summary-line">📌 目标：${statusDisplay}</div><div class="double-set-row">${sets.map((name, idx) => `<div class="set-item"><span class="set-name">📖 ${name}</span><span>部件收集：${setCounts[idx] || 0} / ${setParts[idx]}</span></div>`).join('')}</div>${prog.customNote ? `<div class="summary-line">📝 备注：${escapeHtml(prog.customNote)}</div>` : ''}<div class="progress-actions"><button class="edit-progress-btn">✏️ 编辑进度</button></div></div>`; }
-    function renderSixReadonlySummary(prog, totalParts) { const statusDisplay = sixStatusMap[prog.status] || '未设置目标'; const collected = prog.collected ?? 0; return `<div class="readonly-summary"><div class="summary-line">📌 目标：${statusDisplay}</div><div class="summary-line">📦 部件收集：${collected} / ${totalParts}</div>${prog.customNote ? `<div class="summary-line">📝 备注：${escapeHtml(prog.customNote)}</div>` : ''}<div class="progress-actions"><button class="edit-progress-btn">✏️ 编辑进度</button></div></div>`; }
-    function renderFiveEditPanel(gacha, prog) { const currentStatus = prog.status || ''; return `<div class="progress-panel" data-editing="true"><div class="progress-title"><span>📝 编辑我的进度</span><button class="save-progress-btn">💾 保存</button></div><div class="progress-status-row"><button class="status-btn ${currentStatus==='want_set1'?'active':''}" data-status="want_set1">🎯 我要第一套！</button><button class="status-btn ${currentStatus==='want_set2'?'active':''}" data-status="want_set2">🎯 我要第二套！</button><button class="status-btn ${currentStatus==='none'?'active':''}" data-status="none">💤 我都不要！</button><button class="status-btn ${currentStatus==='both'?'active':''}" data-status="both">✨ 我都要！</button><button class="status-btn ${currentStatus==='all_color'?'active':''}" data-status="all_color">🎨 我要全拓色！</button><button class="status-btn ${currentStatus==='all_pose'?'active':''}" data-status="all_pose">💃 我要全特姿！</button></div><div class="double-set-row">${gacha.sets.map((name, idx) => `<div class="set-item"><span class="set-name">📖 ${name}</span><input type="number" class="count-input set-count" data-setidx="${idx}" min="0" max="${gacha.setParts[idx]}" value="${(prog.setCounts || [0,0])[idx] || 0}"><span>/ ${gacha.setParts[idx]}</span></div>`).join('')}</div><input type="text" class="progress-note-input" placeholder="补充记录" value="${escapeHtml(prog.customNote || '')}"></div>`; }
-    function renderSixEditPanel(gacha, prog) { const currentStatus = prog.status || ''; return `<div class="progress-panel" data-editing="true"><div class="progress-title"><span>📝 编辑我的进度</span><button class="save-progress-btn">💾 保存</button></div><div class="progress-status-row"><button class="status-btn ${currentStatus==='done'?'active':''}" data-status="done">✅ 抽完啦！</button><button class="status-btn ${currentStatus==='want'?'active':''}" data-status="want">🎯 抽齐她！</button><button class="status-btn ${currentStatus==='skip'?'active':''}" data-status="skip">💤 我不想要！</button><button class="status-btn ${currentStatus==='partial'?'active':''}" data-status="partial">✨ 我想要其中一个！</button><button class="status-btn ${currentStatus==='color'?'active':''}" data-status="color">🎨 我要拓色！</button><button class="status-btn ${currentStatus==='pose'?'active':''}" data-status="pose">💃 我要特姿！</button></div><div class="progress-count-row"><span>📦 部件收集</span><input type="number" class="count-input" min="0" max="${gacha.totalParts}" value="${prog.collected ?? 0}"><span>/ ${gacha.totalParts}</span></div><input type="text" class="progress-note-input" placeholder="补充记录" value="${escapeHtml(prog.customNote || '')}"></div>`; }
-    function renderCards(list, store){ if(!list.length) return "<div style='padding:40px;text-align:center'>✨ 暂无匹配阁子 ✨</div>"; return `<div class="cards-grid">${list.map(g=>{ const prog = getProgress(g.id, store); const isEditing = prog.isEditing === true; const starLabel = g.star===6 ? "六星限时阁" : "双五星限时阁"; const isFive = g.star === 5; return `<div class="gacha-card" data-gacha-id="${g.id}"><div class="card-header"><h3>${g.officialName} ✦ ${g.nick}</h3><span class="star-badge">${starLabel}</span></div><div class="card-info"><div class="info-row"><span class="info-label">📅 首次</span><span class="time-highlight">${g.firstStart} ~ ${g.firstEnd}</span></div><div class="info-row"><span class="info-label">🔄 复刻</span>${g.reissue.length}次 ${g.reissue.length>0?`(最新:${g.reissue[g.reissue.length-1]})`:'暂无'}</div><div class="decom-shop"><strong>🏪 分解商店</strong><br/>${renderDecomTags(g.decomposeItems)}</div></div>${isEditing ? (isFive ? renderFiveEditPanel(g, prog) : renderSixEditPanel(g, prog)) : (isFive ? renderFiveReadonlySummary(prog, g.sets, g.setParts) : renderSixReadonlySummary(prog, g.totalParts))}</div>`}).join('')}</div>`; }
+    function getProgress(gachaId, store) { 
+        const defaultData = { status: "", customNote: "", setCounts: [], collected: 0, isEditing: false, colorCounts: [], colorCollected: 0, obtainedDecom: [] };
+        return store[gachaId] || defaultData; 
+    }
+    function renderFiveReadonlySummary(prog, sets, setParts) { 
+        const statusDisplay = fiveStatusMap[prog.status] || '未设置目标'; 
+        const setCounts = prog.setCounts || [0,0];
+        const colorCounts = prog.colorCounts || [0,0];
+        
+        return `<div class="readonly-summary">
+            <div class="summary-line">📌 目标：${statusDisplay}</div>
+            <div class="double-set-row">
+                ${sets.map((name, idx) => {
+                    const partsVal = setCounts[idx] || 0;
+                    const colorVal = colorCounts[idx] || 0;
+                    const maxVal = setParts[idx];
+                    return `<div class="set-item">
+                        <span class="set-name">📖 ${name}</span>
+                        <span>部件：${partsVal}/${maxVal}</span>
+                        <span style="margin-left:12px;">🎨 拓色：${colorVal}/${maxVal}</span>
+                    </div>`;
+                }).join('')}
+            </div>
+            ${prog.customNote ? `<div class="summary-line">📝 备注：${escapeHtml(prog.customNote)}</div>` : ''}
+            <div class="progress-actions"><button class="edit-progress-btn">✏️ 编辑进度</button></div>
+        </div>`; 
+    }
+    function renderSixReadonlySummary(prog, totalParts) { 
+        const statusDisplay = sixStatusMap[prog.status] || '未设置目标'; 
+        const collected = prog.collected ?? 0;
+        const colorCollected = prog.colorCollected ?? 0;
+        
+        return `<div class="readonly-summary">
+            <div class="summary-line">📌 目标：${statusDisplay}</div>
+            <div class="summary-line">📦 部件：${collected}/${totalParts} &nbsp;&nbsp; 🎨 拓色：${colorCollected}/${totalParts}</div>
+            ${prog.customNote ? `<div class="summary-line">📝 备注：${escapeHtml(prog.customNote)}</div>` : ''}
+            <div class="progress-actions"><button class="edit-progress-btn">✏️ 编辑进度</button></div>
+        </div>`; 
+    }
+    function renderFiveEditPanel(gacha, prog) { 
+        const currentStatus = prog.status || ''; 
+        const colorCounts = prog.colorCounts || [0,0];
+        return `<div class="progress-panel" data-editing="true">
+            <div class="progress-title"><span>📝 编辑我的进度</span><button class="save-progress-btn">💾 保存</button></div>
+            <div class="progress-status-row">
+                <button class="status-btn ${currentStatus==='want_set1'?'active':''}" data-status="want_set1">🎯 我要第一套！</button>
+                <button class="status-btn ${currentStatus==='want_set2'?'active':''}" data-status="want_set2">🎯 我要第二套！</button>
+                <button class="status-btn ${currentStatus==='none'?'active':''}" data-status="none">💤 我都不要！</button>
+                <button class="status-btn ${currentStatus==='both'?'active':''}" data-status="both">✨ 我都要！</button>
+                <button class="status-btn ${currentStatus==='all_color'?'active':''}" data-status="all_color">🎨 我要全拓色！</button>
+                <button class="status-btn ${currentStatus==='all_pose'?'active':''}" data-status="all_pose">💃 我要全特姿！</button>
+            </div>
+            <div class="double-set-row">
+                ${gacha.sets.map((name, idx) => `<div class="set-item"><span class="set-name">📖 ${name}</span><input type="number" class="count-input set-count" data-setidx="${idx}" min="0" max="${gacha.setParts[idx]}" value="${(prog.setCounts || [0,0])[idx] || 0}"><span>/ ${gacha.setParts[idx]}</span></div>`).join('')}
+            </div>
+            <div class="double-set-row" style="margin-top:8px;">
+                ${gacha.sets.map((name, idx) => `<div class="set-item"><span class="set-name">🎨 ${name} 拓色</span><input type="number" class="count-input color-count" data-setidx="${idx}" min="0" max="${gacha.setParts[idx]}" value="${colorCounts[idx] || 0}"><span>/ ${gacha.setParts[idx]}</span></div>`).join('')}
+            </div>
+            <input type="text" class="progress-note-input" placeholder="补充记录" value="${escapeHtml(prog.customNote || '')}">
+        </div>`; 
+    }
+    function renderSixEditPanel(gacha, prog) { 
+        const currentStatus = prog.status || ''; 
+        const colorCollected = prog.colorCollected ?? 0;
+        return `<div class="progress-panel" data-editing="true">
+            <div class="progress-title"><span>📝 编辑我的进度</span><button class="save-progress-btn">💾 保存</button></div>
+            <div class="progress-status-row">
+                <button class="status-btn ${currentStatus==='done'?'active':''}" data-status="done">✅ 抽完啦！</button>
+                <button class="status-btn ${currentStatus==='want'?'active':''}" data-status="want">🎯 抽齐她！</button>
+                <button class="status-btn ${currentStatus==='skip'?'active':''}" data-status="skip">💤 我不想要！</button>
+                <button class="status-btn ${currentStatus==='partial'?'active':''}" data-status="partial">✨ 我想要其中一个！</button>
+                <button class="status-btn ${currentStatus==='color'?'active':''}" data-status="color">🎨 我要拓色！</button>
+                <button class="status-btn ${currentStatus==='pose'?'active':''}" data-status="pose">💃 我要特姿！</button>
+            </div>
+            <div class="progress-count-row"><span>📦 部件收集</span><input type="number" class="count-input" min="0" max="${gacha.totalParts}" value="${prog.collected ?? 0}"><span>/ ${gacha.totalParts}</span></div>
+            <div class="progress-count-row"><span>🎨 拓色收集</span><input type="number" class="count-input color-count" min="0" max="${gacha.totalParts}" value="${colorCollected}"><span>/ ${gacha.totalParts}</span></div>
+            <input type="text" class="progress-note-input" placeholder="补充记录" value="${escapeHtml(prog.customNote || '')}">
+        </div>`; 
+    }
+    function renderCards(list, store){ if(!list.length) return "<div style='padding:40px;text-align:center'>✨ 暂无匹配阁子 ✨</div>"; return `<div class="cards-grid">${list.map(g=>{ const prog = getProgress(g.id, store); const isEditing = prog.isEditing === true; const starLabel = g.star===6 ? "六星限时阁" : "双五星限时阁"; const isFive = g.star === 5; return `<div class="gacha-card" data-gacha-id="${g.id}"><div class="card-header"><h3>${g.officialName} ✦ ${g.nick}</h3><span class="star-badge">${starLabel}</span></div><div class="card-info"><div class="info-row"><span class="info-label">📅 首次</span><span class="time-highlight">${g.firstStart} ~ ${g.firstEnd}</span></div><div class="info-row"><span class="info-label">🔄 复刻</span>${g.reissue.length}次 ${g.reissue.length>0?`(最新:${g.reissue[g.reissue.length-1]})`:'暂无'}</div><div class="decom-shop"><strong>🏪 分解商店</strong><br/>${renderDecomTags(g.id, g.decomposeItems, store)}</div></div>${isEditing ? (isFive ? renderFiveEditPanel(g, prog) : renderSixEditPanel(g, prog)) : (isFive ? renderFiveReadonlySummary(prog, g.sets, g.setParts) : renderSixReadonlySummary(prog, g.totalParts))}</div>`}).join('')}</div>`; }
     function isDateBetween(date, startStr, endStr) { const d = new Date(date); const start = new Date(startStr); const end = new Date(endStr); return d >= start && d <= end; }
     
     // ================= 新增：获取强制指定复刻的时间安排 =================
@@ -679,19 +775,28 @@
                     const noteVal = panel.querySelector('.progress-note-input')?.value||''; 
                     const newStore = loadProgress(); 
                     if(isFive) { 
-                        const setCounts = []; 
-                        panel.querySelectorAll('.set-count').forEach((input,idx)=>{ 
-                            let val = parseInt(input.value) || 0;
-                            const maxVal = gacha.setParts[idx];
-                            if (val > maxVal) val = maxVal;
-                            setCounts[idx] = val;
-                        }); 
-                        newStore[gachaId] = { status:selected, customNote:noteVal, setCounts, isEditing:false }; 
-                    } else { 
-                        let countVal = parseInt(panel.querySelector('.count-input')?.value)||0; 
-                        if (countVal > gacha.totalParts) countVal = gacha.totalParts;
-                        newStore[gachaId] = { status:selected, customNote:noteVal, collected:countVal, isEditing:false }; 
-                    } 
+                            const setCounts = []; 
+                            const colorCounts = [];
+                            panel.querySelectorAll('.set-count').forEach((input,idx)=>{ 
+                                let val = parseInt(input.value) || 0;
+                                const maxVal = gacha.setParts[idx];
+                                if (val > maxVal) val = maxVal;
+                                setCounts[idx] = val;
+                            });
+                            panel.querySelectorAll('.color-count').forEach((input,idx)=>{ 
+                                let val = parseInt(input.value) || 0;
+                                const maxVal = gacha.setParts[idx];
+                                if (val > maxVal) val = maxVal;
+                                colorCounts[idx] = val;
+                            });
+                            newStore[gachaId] = { status:selected, customNote:noteVal, setCounts, colorCounts, isEditing:false }; 
+                        } else { 
+                            let countVal = parseInt(panel.querySelector('.count-input')?.value)||0; 
+                            if (countVal > gacha.totalParts) countVal = gacha.totalParts;
+                            let colorVal = parseInt(panel.querySelector('.color-count')?.value)||0;
+                            if (colorVal > gacha.totalParts) colorVal = gacha.totalParts;
+                            newStore[gachaId] = { status:selected, customNote:noteVal, collected:countVal, colorCollected:colorVal, isEditing:false }; 
+                        } 
                     saveProgress(newStore); 
                     renderCurrent(); 
                 }; 
@@ -709,7 +814,7 @@
                     });
                     
                     if (isFive) {
-                        // 五星阁：每个部件单独限制
+                        // 五星阁：部件收集限制
                         panel.querySelectorAll('.set-count').forEach(input => {
                             const maxVal = parseInt(input.getAttribute('max'));
                             input.oninput = function() {
@@ -718,12 +823,31 @@
                                 if (val < 0) this.value = 0;
                             };
                         });
+                        // 五星阁：拓色收集限制（新增）
+                        panel.querySelectorAll('.color-count').forEach(input => {
+                            const maxVal = parseInt(input.getAttribute('max'));
+                            input.oninput = function() {
+                                let val = parseInt(this.value) || 0;
+                                if (val > maxVal) this.value = maxVal;
+                                if (val < 0) this.value = 0;
+                            };
+                        });
                     } else {
-                        // 六星阁：总部件数限制
+                        // 六星阁：部件收集限制
                         const countInput = panel.querySelector('.count-input');
                         if (countInput) {
                             const maxVal = gacha.totalParts;
                             countInput.oninput = function() {
+                                let val = parseInt(this.value) || 0;
+                                if (val > maxVal) this.value = maxVal;
+                                if (val < 0) this.value = 0;
+                            };
+                        }
+                        // 六星阁：拓色收集限制（新增）
+                        const colorInput = panel.querySelector('.color-count');
+                        if (colorInput) {
+                            const maxVal = gacha.totalParts;
+                            colorInput.oninput = function() {
                                 let val = parseInt(this.value) || 0;
                                 if (val > maxVal) this.value = maxVal;
                                 if (val < 0) this.value = 0;
@@ -748,6 +872,28 @@
                 }); 
             }
         }); 
+        
+        // 分解商店标签点击切换（点击变色保存）
+        document.querySelectorAll('.decom-tag').forEach(tag => {
+            tag.onclick = (e) => {
+                e.stopPropagation();
+                const gachaCard = tag.closest('.gacha-card');
+                const gachaId = gachaCard.getAttribute('data-gacha-id');
+                const decomName = tag.getAttribute('data-decom-name');
+                const store = loadProgress();
+                if (!store[gachaId]) store[gachaId] = {};
+                if (!store[gachaId].obtainedDecom) store[gachaId].obtainedDecom = [];
+                const idx = store[gachaId].obtainedDecom.indexOf(decomName);
+                if (idx === -1) {
+                    store[gachaId].obtainedDecom.push(decomName);
+                    tag.classList.add('decom-obtained');
+                } else {
+                    store[gachaId].obtainedDecom.splice(idx, 1);
+                    tag.classList.remove('decom-obtained');
+                }
+                saveProgress(store);
+            };
+        });
     }
     function renderStarPage(starVal, store){ let filtered = gachaData.filter(g=>g.star===starVal); if(currentSearch) filtered = filtered.filter(g=>g.officialName.includes(currentSearch)||g.nick.includes(currentSearch)||g.firstStart.includes(currentSearch)); filtered.sort((a,b)=>new Date(b.firstStart)-new Date(a.firstStart)); const title = starVal===5 ? "双五星限时阁" : "六星限时阁"; return `<div><h2 style="margin:20px 0">✨ ${title} (${filtered.length}个)</h2><div class="search-section"><div class="search-box" style="pointer-events:auto;"><span>🔍</span><input id="kwSearch" value="${escapeHtml(currentSearch)}" placeholder="搜索阁名/昵称/年份" style="pointer-events:auto; z-index:10; position:relative;"></div><button class="btn-reset" id="resetSearchBtn">重置</button></div>${renderCards(filtered, store)}</div>`;}
     function bindGlobalSearch(){ 
