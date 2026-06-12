@@ -211,7 +211,7 @@
         <button class="menu-toggle" id="menuToggle">☰</button>
         <div class="logo"id="logoHome" style="cursor:pointer;">
             <h1>✨ 以闪亮之名·阁录</h1>
-            <p>v2026.06.11.02 | 新增阁内图片显示</p>
+            <p>v2026.06.11.03 | 新增阁内图片显示</p>
         </div>
         <div class="nav-links">
             <a data-page="home" class="nav-item active">首页</a>
@@ -337,6 +337,7 @@
     const SHOW_WRONG_GUESS = false;
     // 更新日志数据（最新在上，前4条显示在首页和弹窗）
     const CHANGELOG_DATA = [
+        { date: "2026-06-12", content: "修复分解商店选择在保存后失效的问题" },
         { date: "2026-06-11", content: "新增详情页图片" },
         { date: "2026-06-11", content: "新增拓色进度填写、分解商店选择" },
         { date: "2026-06-10", content: "修复首页底部查看全部按钮失效的问题" },
@@ -789,14 +790,37 @@
                                 const maxVal = gacha.setParts[idx];
                                 if (val > maxVal) val = maxVal;
                                 colorCounts[idx] = val;
-                            });
-                            newStore[gachaId] = { status:selected, customNote:noteVal, setCounts, colorCounts, isEditing:false }; 
+    });
+    
+    // 从旧的存储数据中取出 obtainedDecom
+    const oldProgress = newStore[gachaId] || {};
+    const obtainedDecom = oldProgress.obtainedDecom || [];
+    
+    newStore[gachaId] = { 
+        status: selected, 
+        customNote: noteVal, 
+        setCounts, 
+        colorCounts, 
+        obtainedDecom: obtainedDecom,  // 保留旧的分解商店数据
+        isEditing: false 
+    }; 
                         } else { 
                             let countVal = parseInt(panel.querySelector('.count-input')?.value)||0; 
                             if (countVal > gacha.totalParts) countVal = gacha.totalParts;
                             let colorVal = parseInt(panel.querySelector('.color-count')?.value)||0;
                             if (colorVal > gacha.totalParts) colorVal = gacha.totalParts;
-                            newStore[gachaId] = { status:selected, customNote:noteVal, collected:countVal, colorCollected:colorVal, isEditing:false }; 
+                            // 从旧的存储数据中取出 obtainedDecom
+    const oldProgress = newStore[gachaId] || {};
+    const obtainedDecom = oldProgress.obtainedDecom || [];
+    
+    newStore[gachaId] = { 
+        status: selected, 
+        customNote: noteVal, 
+        collected: countVal, 
+        colorCollected: colorVal, 
+        obtainedDecom: obtainedDecom,
+        isEditing: false 
+    }; 
                         } 
                     saveProgress(newStore); 
                     renderCurrent(); 
