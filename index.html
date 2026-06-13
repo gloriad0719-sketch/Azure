@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>以闪亮之名 · 限时阁百科 | v2026.06.11</title>
+    <title>以闪亮之名 · 限时阁百科 | v2026.06.13</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.2s ease; }
         .menu-toggle {
@@ -48,6 +48,253 @@
         .notice-bar marquee {
             width: 100%;
         }
+        .all-gacha-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.all-gacha-card {
+    background: white;
+    border-radius: 16px;
+    padding: 12px;
+    border: 1px solid #f0e4d4;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.all-gacha-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.all-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #f0e0ce;
+}
+
+.all-card-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #3e2e24;
+    flex: 1;
+}
+
+.all-star-badge {
+    font-size: 0.6rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: #f2e0d0;
+    color: #b47c58;
+}
+
+.all-star-badge.six-star {
+    background: #fef0e0;
+    color: #cf9f6e;
+}
+
+.all-star-badge.five-star {
+    background: #f0e8f5;
+    color: #7f6b9e;
+}
+
+.all-card-progress {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+}
+
+.all-progress-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.7rem;
+}
+
+.all-progress-label {
+    color: #9b7b64;
+}
+
+.all-progress-value {
+    font-weight: 500;
+    color: #b77d5e;
+    background: #fef9f2;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+.compact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 20px 0;
+}
+@media (max-width: 768px) {
+    .compact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+.compact-card {
+    background: white;
+    border-radius: 12px;
+    padding: 8px 10px;
+    border: 1px solid #f0e4d4;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+}
+
+.compact-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    background: #fefaf5;
+}
+
+.compact-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #3e2e24;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.compact-star {
+    font-size: 0.6rem;
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 20px;
+    flex-shrink: 0;
+}
+
+.compact-star.six {
+    background: #fff0e5;
+    color: #cf9f6e;
+}
+
+.compact-star.five {
+    background: #f0e8f5;
+    color: #7f6b9e;
+}
+
+.compact-progress {
+    font-size: 0.6rem;
+    color: #b77d5e;
+    background: #fef9f2;
+    padding: 4px 6px;
+    border-radius: 16px;
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.compact-progress-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.6rem;
+    padding: 2px 4px;
+    background: #fef9f2;
+    border-radius: 12px;
+    margin-top: 4px;
+}
+
+.compact-progress-label {
+    color: #9b7b64;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    text-align: left;
+}
+
+.compact-progress-value {
+    color: #b77d5e;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.compact-name {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.compact-fullname {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #3e2e24;
+    flex: 2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;  
+}
+
+.compact-nickname {
+    font-size: 0.65rem;
+    color: #9b7b64;
+    flex-shrink: 0;
+    text-align: right;  
+}
+      .compact-star {
+    font-size: 0.6rem;
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 20px;
+    flex-shrink: 0;
+}
+      .compact-progress-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.6rem;
+    padding: 4px 6px;
+    background: #fef9f2;
+    border-radius: 12px;
+    margin-top: 4px;
+}
+
+.compact-progress-label {
+    color: #9b7b64;
+    text-align: left;
+    flex: 1;
+}
+
+.compact-progress-value {
+    color: #b77d5e;
+    font-weight: 500;
+    text-align: right;
+    flex-shrink: 0;
+}
+@media (max-width: 680px) {
+    .compact-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    .compact-progress {
+        font-size: 0.55rem;
+        white-space: normal;
+        word-break: break-all;
+    }
+}
+@media (max-width: 680px) {
+    .all-gacha-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .all-card-progress {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+}
         @media (max-width: 680px) {
             .notice-bar {
                 font-size: 0.7rem;
@@ -211,13 +458,14 @@
         <button class="menu-toggle" id="menuToggle">☰</button>
         <div class="logo"id="logoHome" style="cursor:pointer;">
             <h1>✨ 以闪亮之名·阁录</h1>
-            <p>v2026.06.11.03 | 新增阁内图片显示</p>
+            <p>v2026.06.13.01 | 新增所有限时阁板块</p>
         </div>
         <div class="nav-links">
             <a data-page="home" class="nav-item active">首页</a>
             <a data-page="five" class="nav-item">五星阁</a>
             <a data-page="six" class="nav-item">六星阁</a>
             <a data-page="predict" class="nav-item">复刻预测</a>
+            <a data-page="allgacha" class="nav-item">所有限时阁</a>
             <a data-page="changelog" class="nav-item">更新日志</a>
         </div>
         <div style="display:flex; gap:4px;">
@@ -232,6 +480,7 @@
         <a data-page="five" class="nav-item">五星阁</a>
         <a data-page="six" class="nav-item">六星阁</a>
         <a data-page="predict" class="nav-item">复刻预测</a>
+        <a data-page="allgacha" class="nav-item">所有限时阁</a>
         <a data-page="changelog" class="nav-item">更新日志</a>
     </div>
 </div>
@@ -337,6 +586,9 @@
     const SHOW_WRONG_GUESS = false;
     // 更新日志数据（最新在上，前4条显示在首页和弹窗）
     const CHANGELOG_DATA = [
+        { date: "2026-06-13", content: "新增五星阁选项：捞个裙子就跑！" },
+        { date: "2026-06-13", content: "新增所有限时阁板块" },
+        { date: "2026-06-13", content: "优化页面切换动画" },
         { date: "2026-06-12", content: "修复分解商店选择在保存后失效的问题" },
         { date: "2026-06-11", content: "新增详情页图片" },
         { date: "2026-06-11", content: "新增拓色进度填写、分解商店选择" },
@@ -375,7 +627,7 @@
             <span class="decom-tag ${obtainedDecom.includes(item) ? 'decom-obtained' : ''}" data-decom-name="${item.replace(/"/g, '&quot;')}">${item}</span>
         `).join('')}</div>`;
     }
-    const fiveStatusMap = { 'want_set1':'🎯 我要第一套！', 'want_set2':'🎯 我要第二套！', 'none':'💤 我都不要！', 'both':'✨ 我都要！', 'all_color':'🎨 我要全拓色！', 'all_pose':'💃 我要全特姿！' };
+    const fiveStatusMap = { 'want_set1':'🎯 我要第一套！', 'want_set2':'🎯 我要第二套！', 'none':'💤 我都不要！', 'both':'✨ 我都要！', 'all_color':'🎨 我要全拓色！', 'all_pose':'💃 我要全特姿！', 'skirt':'👗 捞条裙子就跑！'  };
     const sixStatusMap = { 'done':'✅ 抽完啦！', 'want':'🎯 抽齐她！', 'skip':'💤 我不想要！', 'partial':'✨ 我想要其中一个！', 'color':'🎨 我要拓色！', 'pose':'💃 我要特姿！' };
     function loadProgress() { const saved = localStorage.getItem(STORAGE_KEY); try { return saved ? JSON.parse(saved) : {}; } catch(e){ return {}; } }
     function saveProgress(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
@@ -430,6 +682,7 @@
                 <button class="status-btn ${currentStatus==='both'?'active':''}" data-status="both">✨ 我都要！</button>
                 <button class="status-btn ${currentStatus==='all_color'?'active':''}" data-status="all_color">🎨 我要全拓色！</button>
                 <button class="status-btn ${currentStatus==='all_pose'?'active':''}" data-status="all_pose">💃 我要全特姿！</button>
+                <button class="status-btn ${currentStatus==='skirt'?'active':''}" data-status="skirt">👗 捞条裙子就跑！</button>
             </div>
             <div class="double-set-row">
                 ${gacha.sets.map((name, idx) => `<div class="set-item"><span class="set-name">📖 ${name}</span><input type="number" class="count-input set-count" data-setidx="${idx}" min="0" max="${gacha.setParts[idx]}" value="${(prog.setCounts || [0,0])[idx] || 0}"><span>/ ${gacha.setParts[idx]}</span></div>`).join('')}
@@ -735,10 +988,70 @@
                 <p style="font-size:0.7rem; color:#9b7b64; margin-top:8px;">（制作者：堕落母神）</p>
             </div>
         ` : '';return `<div class="prediction-panel"><div class="prediction-title">🔮 复刻阁预测</div><div class="prediction-card"><div class="prediction-date">📌 下个新阁：${pred.nextGachaName}</div><div class="prediction-date" style="margin-top:8px">⏰ 开启时间：${formatDateShort(pred.nextPeriodStartDate)}</div></div><div class="prediction-list"><div class="prediction-item"><h4>📅 第一次复刻 · ${formatYMD(pred.firstRerunDate)}</h4><p>✨ 预测复刻阁名：${pred.nextFirstRerun?.officialName || '待定'} ✦ ${pred.nextFirstRerun?.nick || ''}</p><p>⭐ 星级：${pred.nextFirstRerun ? starText(pred.nextFirstRerun.star) : '—'}</p></div><div class="prediction-item"><h4>📅 第二次复刻 · ${formatYMD(pred.secondRerunDate)}</h4><p>✨ 预测复刻阁名：${pred.nextSecondRerun?.officialName || '待定'} ✦ ${pred.nextSecondRerun?.nick || ''}</p><p>⭐ 星级：${pred.nextSecondRerun ? starText(pred.nextSecondRerun.star) : '—'}</p></div></div>${wrongGuessHTML}<div class="prediction-card" style="margin-top:20px"><div class="prediction-date">📌 下下个新阁预测：${starText(pred.nextNextStar)}</div><div class="prediction-date" style="margin-top:8px">⏰ 预计开启时间：${formatDateShort(pred.nextNextPeriodStartDate)}</div></div><div class="prediction-list"><div class="prediction-item"><h4>📅 第一次复刻 · ${formatYMD(pred.nextNextFirstRerunDate)}</h4><p>✨ 预测复刻阁名：${pred.nextNextFirstRerun?.officialName || '待定'} ✦ ${pred.nextNextFirstRerun?.nick || ''}</p><p>⭐ 星级：${pred.nextNextFirstRerun ? starText(pred.nextNextFirstRerun.star) : '—'}</p></div><div class="prediction-item"><h4>📅 第二次复刻 · ${formatYMD(pred.nextNextSecondRerunDate)}</h4><p>✨ 预测复刻阁名：${pred.nextNextSecondRerun?.officialName || '待定'} ✦ ${pred.nextNextSecondRerun?.nick || ''}</p><p>⭐ 星级：${pred.nextNextSecondRerun ? starText(pred.nextNextSecondRerun.star) : '—'}</p></div></div>${renderPoolGroup(pred.pools)}<div class="rule-box">📖 复刻预测规则：<br/>• 下个新阁开启时间 = 当前新阁结束日<br/>• 第一次复刻：开启后第8天（周三）<br/>• 第二次复刻：开启后第15天（周三）<br/>• 所有复刻阁从「全体阁子减去超过18个月未复刻备选池」中动态挑选</div></div>`; }
+    function renderAllGacha(store) {
+    const allGacha = [...sixStarData, ...fiveStarData];
+    allGacha.sort((a,b) => new Date(b.firstStart) - new Date(a.firstStart));
+    
+    const itemsHtml = allGacha.map(g => {
+        const prog = getProgress(g.id, store);
+        
+        let progressHtml = '';
+        if (g.star === 6) {
+            // 六星阁：部件和拓色各一行
+            const collected = (prog.collected !== undefined) ? prog.collected : 0;
+            const colorCollected = (prog.colorCollected !== undefined) ? prog.colorCollected : 0;
+            progressHtml = `
+                <div class="compact-progress-row">
+                    <span class="compact-progress-label">📦 部件收集</span>
+                    <span class="compact-progress-value">${collected}/${g.totalParts}</span>
+                </div>
+                <div class="compact-progress-row">
+                    <span class="compact-progress-label">🎨 拓色收集</span>
+                    <span class="compact-progress-value">${colorCollected}/${g.totalParts}</span>
+                </div>
+            `;
+        } else {
+            // 五星阁：两行显示，每行对应一套衣服
+            const setCounts = (prog.setCounts && prog.setCounts.length === 2) ? prog.setCounts : [0, 0];
+            const colorCounts = (prog.colorCounts && prog.colorCounts.length === 2) ? prog.colorCounts : [0, 0];
+            progressHtml = `
+                <div class="compact-progress-row">
+                    <span class="compact-progress-label">📖 ${g.sets[0]}</span>
+                    <span class="compact-progress-value">${setCounts[0]}/${g.setParts[0]}  🎨 ${colorCounts[0]}/${g.setParts[0]}</span>
+                </div>
+                <div class="compact-progress-row">
+                    <span class="compact-progress-label">📖 ${g.sets[1]}</span>
+                    <span class="compact-progress-value">${setCounts[1]}/${g.setParts[1]}  🎨 ${colorCounts[1]}/${g.setParts[1]}</span>
+                </div>
+            `;
+        }
+        
+        return `
+    <div class="compact-card" data-gacha-id="${g.id}" data-gacha-nick="${g.nick}">
+        <div class="compact-name">
+            <span class="compact-fullname">${g.officialName}</span>
+            <span class="compact-nickname">${g.nick}</span>
+            <span class="compact-star ${g.star === 6 ? 'six' : 'five'}">${g.star === 6 ? '★6' : '★5'}</span>
+        </div>
+        ${progressHtml}
+    </div>
+`;
+    }).join('');
+    
+    return `
+        <div style="text-align:center;margin:20px 0 10px">
+            <h2>📋 所有限时阁</h2>
+            <p>共 ${allGacha.length} 个阁 | 点击卡片查看详情</p>
+        </div>
+        <div class="compact-grid">
+            ${itemsHtml}
+        </div>
+    `;
+}
     function renderHome(store){ const sixCount = sixStarData.length; const fiveCount = fiveStarData.length; const currentGachas = getCurrentGachas(); const upcomingReruns = getUpcomingReruns(); const homeChangelogHTML = CHANGELOG_DATA.slice(0,4).map(item => 
             `<li><span class="changelog-date">${item.date}</span> ${item.content}</li>`
         ).join('');
-        const changelogSection = `<div class="update-log-area"><strong>📋 最近更新</strong><ul class="changelog-list">${homeChangelogHTML}</ul><div style="text-align:right; margin-top:8px;"><a data-page="changelog" style="color:#b77d5e; cursor:pointer; font-size:0.7rem;">📖 查看全部 →</a></div></div>`;return `<div style="text-align:center;margin:20px 0 10px"><h2>📖 以闪亮之名·限时阁百科</h2><p>六星${sixCount} · 五星${fiveCount} (双套独立进度) | 所有时间均为北京时间（UTC+8）</p></div><div class="home-current-panel"><div class="home-section-title">🎯 正在进行的限时阁 (${CURRENT_DATE.getFullYear()}.${CURRENT_DATE.getMonth()+1}.${CURRENT_DATE.getDate()})</div><div class="current-list-horizontal">${currentGachas.map(g => `<div class="current-card" data-jump-nick="${g.nick}"><div class="current-name">${g.displayName}<span class="current-star-badge">${g.star===6?'六星':'五星'}</span><span style="font-size:0.7rem;background:#d9aa8b20;padding:2px 8px;border-radius:20px;">${g.type}</span></div><div class="current-date">📅 ${g.displayDate}</div></div>`).join('')}</div></div><div class="home-upcoming-panel"><div class="home-section-title">🔜 即将开启的复刻阁</div><div class="current-list-horizontal">${upcomingReruns.length ? upcomingReruns.map(g => `<div class="current-card" data-jump-nick="${g.nick}"><div class="current-name">${g.displayName}<span class="current-star-badge">${g.star===6?'六星':'五星'}</span><span style="font-size:0.7rem;background:#d9aa8b20;padding:2px 8px;border-radius:20px;">${g.type}</span></div><div class="current-date">📅 ${g.displayDate}</div></div>`).join('') : '<div style="padding:16px;color:#9b7b64;">暂无即将开启的复刻阁</div>'}</div></div><div class="category-grid"><div class="cat-card five-star" data-nav="five"><span>🌸</span><h2>双五星限时阁</h2></div><div class="cat-card six-star" data-nav="six"><span>👑</span><h2>六星限时阁</h2></div><div class="cat-card" style="border-top-color:#b8c9a6" data-nav="predict"><span>🔮</span><h2>复刻预测</h2></div></div>${changelogSection}</div>` }
+        const changelogSection = `<div class="update-log-area"><strong>📋 最近更新</strong><ul class="changelog-list">${homeChangelogHTML}</ul><div style="text-align:right; margin-top:8px;"><a data-page="changelog" style="color:#b77d5e; cursor:pointer; font-size:0.7rem;">📖 查看全部 →</a></div></div>`;return `<div style="text-align:center;margin:20px 0 10px"><h2>📖 以闪亮之名·限时阁百科</h2><p>六星${sixCount} · 五星${fiveCount} (双套独立进度) | 所有时间均为北京时间（UTC+8）</p></div><div class="home-current-panel"><div class="home-section-title">🎯 正在进行的限时阁 (${CURRENT_DATE.getFullYear()}.${CURRENT_DATE.getMonth()+1}.${CURRENT_DATE.getDate()})</div><div class="current-list-horizontal">${currentGachas.map(g => `<div class="current-card" data-jump-nick="${g.nick}"><div class="current-name">${g.displayName}<span class="current-star-badge">${g.star===6?'六星':'五星'}</span><span style="font-size:0.7rem;background:#d9aa8b20;padding:2px 8px;border-radius:20px;">${g.type}</span></div><div class="current-date">📅 ${g.displayDate}</div></div>`).join('')}</div></div><div class="home-upcoming-panel"><div class="home-section-title">🔜 即将开启的复刻阁</div><div class="current-list-horizontal">${upcomingReruns.length ? upcomingReruns.map(g => `<div class="current-card" data-jump-nick="${g.nick}"><div class="current-name">${g.displayName}<span class="current-star-badge">${g.star===6?'六星':'五星'}</span><span style="font-size:0.7rem;background:#d9aa8b20;padding:2px 8px;border-radius:20px;">${g.type}</span></div><div class="current-date">📅 ${g.displayDate}</div></div>`).join('') : '<div style="padding:16px;color:#9b7b64;">暂无即将开启的复刻阁</div>'}</div></div><div class="category-grid"><div class="cat-card five-star" data-nav="five"><span>🌸</span><h2>双五星限时阁</h2></div><div class="cat-card six-star" data-nav="six"><span>👑</span><h2>六星限时阁</h2></div><div class="cat-card" style="border-top-color:#b8c9a6" data-nav="predict"><span>🔮</span><h2>复刻预测</h2></div><div class="cat-card" style="border-top-color:#e891a9" data-nav="allgacha"><span>📋</span><h2>查看所有限时阁</h2></div></div>${changelogSection}</div>` }
     function bindCurrentCardJump() { document.querySelectorAll('.current-card[data-jump-nick]').forEach(card => { card.removeEventListener('click', currentCardClickHandler); card.addEventListener('click', currentCardClickHandler); }); }
     function currentCardClickHandler(e) { const nick = this.getAttribute('data-jump-nick'); if (nick) jumpToGacha(nick); }
     function bindAllEvents(store) { 
@@ -1007,6 +1320,17 @@
                 saveProgress(store);
             };
         });
+        // 全阁录卡片点击跳转
+document.querySelectorAll('.compact-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const nick = card.getAttribute('data-gacha-nick');
+        if (nick) {
+            console.log("跳转到:", nick);
+            jumpToGacha(nick);
+        }
+    });
+});
     }
     function renderStarPage(starVal, store){ let filtered = gachaData.filter(g=>g.star===starVal); if(currentSearch) filtered = filtered.filter(g=>g.officialName.includes(currentSearch)||g.nick.includes(currentSearch)||g.firstStart.includes(currentSearch)); filtered.sort((a,b)=>new Date(b.firstStart)-new Date(a.firstStart)); const title = starVal===5 ? "双五星限时阁" : "六星限时阁"; return `<div><h2 style="margin:20px 0">✨ ${title} (${filtered.length}个)</h2><div class="search-section"><div class="search-box" style="pointer-events:auto;"><span>🔍</span><input id="kwSearch" value="${escapeHtml(currentSearch)}" placeholder="搜索阁名/昵称/年份" style="pointer-events:auto; z-index:10; position:relative;"></div><button class="btn-reset" id="resetSearchBtn">重置</button></div>${renderCards(filtered, store)}</div>`;}
     function bindGlobalSearch(){ 
@@ -1232,23 +1556,36 @@
         console.log("未找到菜单元素");  // 调试
     }
     function renderCurrent(){ 
-        // 首次访问弹窗（只弹出一次）
-        const hasVisited = localStorage.getItem("has_visited_before");
-        if (!hasVisited) {
-            localStorage.setItem("has_visited_before", "true");
-            const latestUpdates = CHANGELOG_DATA.slice(0,4).map(item => `• ${item.content}`).join('\n');
-            showModal(`📢 最近更新\n\n${latestUpdates}\n\n点击「更新日志」查看全部`);
-        }const store = loadProgress(); if(currentPage==="home") appRoot.innerHTML = renderHome(store); else if(currentPage==="five") appRoot.innerHTML = renderStarPage(5, store); else if(currentPage==="six") appRoot.innerHTML = renderStarPage(6, store); else if(currentPage==="predict") appRoot.innerHTML = renderPrediction(); else if(currentPage==="changelog") {
-            const allChangelogHTML = CHANGELOG_DATA.map(item => 
-                `<li><span class="changelog-date">${item.date}</span> ${item.content}</li>`
-            ).join('');
-            appRoot.innerHTML = `<div><h2 style="margin:20px 0">📝 更新日志</h2><div class="update-log-area"><ul class="changelog-list">${allChangelogHTML}</ul></div></div>`;
-        }
-        
-        bindAllEvents(store); 
-        bindGlobalSearch(); 
-        bindCurrentCardJump(); 
-        setupImportExport();
+    // 首次访问弹窗（只弹出一次）
+    const hasVisited = localStorage.getItem("has_visited_before");
+    if (!hasVisited) {
+        localStorage.setItem("has_visited_before", "true");
+        const latestUpdates = CHANGELOG_DATA.slice(0,4).map(item => `• ${item.content}`).join('\n');
+        showModal(`📢 最近更新\n\n${latestUpdates}\n\n点击「更新日志」查看全部`);
+    }
+    const store = loadProgress(); 
+    
+    if(currentPage==="home") {
+        appRoot.innerHTML = renderHome(store);
+    } else if(currentPage==="five") {
+        appRoot.innerHTML = renderStarPage(5, store);
+    } else if(currentPage==="six") {
+        appRoot.innerHTML = renderStarPage(6, store);
+    } else if(currentPage==="allgacha") {
+        appRoot.innerHTML = renderAllGacha(store);   // ← 新增
+    } else if(currentPage==="predict") {
+        appRoot.innerHTML = renderPrediction();
+    } else if(currentPage==="changelog") {
+        const allChangelogHTML = CHANGELOG_DATA.map(item => 
+            `<li><span class="changelog-date">${item.date}</span> ${item.content}</li>`
+        ).join('');
+        appRoot.innerHTML = `<div><h2 style="margin:20px 0">📝 更新日志</h2><div class="update-log-area"><ul class="changelog-list">${allChangelogHTML}</ul></div></div>`;
+    }
+    
+    bindAllEvents(store); 
+    bindGlobalSearch(); 
+    bindCurrentCardJump(); 
+    setupImportExport();
     document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active')); 
     document.querySelector(`.nav-links a[data-page="${currentPage}"]`)?.classList.add('active');
     // 手机菜单高亮同步
@@ -1264,7 +1601,25 @@
     
     return; 
 }
-    function setPage(page){ currentPage=page; currentSearch=""; renderCurrent(); }
+    const scrollPositions = {};
+    function setPage(page){if (currentPage) {
+        scrollPositions[currentPage] = window.scrollY;
+    }
+    
+    currentPage = page; 
+    currentSearch = ""; 
+    renderCurrent(); 
+    window.scrollTo(0, 0);
+    // 恢复目标页面的滚动位置
+    setTimeout(() => {
+        const savedPosition = scrollPositions[page];
+        if (savedPosition !== undefined) {
+            window.scrollTo({ top: savedPosition, behavior: 'smooth' });
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, 50);
+}
     const logoHome = document.getElementById('logoHome');
     if (logoHome) {
         logoHome.onclick = () => {
