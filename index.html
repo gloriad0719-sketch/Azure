@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>以闪亮之名 · 限时阁百科 | v2026.06.13</title>
+    <title>以闪亮之名 · 限时阁百科 | v2026.06.18</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.2s ease; }
         .menu-toggle {
@@ -458,7 +458,7 @@
         <button class="menu-toggle" id="menuToggle">☰</button>
         <div class="logo"id="logoHome" style="cursor:pointer;">
             <h1>✨ 以闪亮之名·阁录</h1>
-            <p>v2026.06.13.01 | 新增所有限时阁板块</p>
+            <p>v2026.06.18.01 | 新增盲盒</p>
         </div>
         <div class="nav-links">
             <a data-page="home" class="nav-item active">首页</a>
@@ -466,6 +466,7 @@
             <a data-page="six" class="nav-item">六星阁</a>
             <a data-page="predict" class="nav-item">复刻预测</a>
             <a data-page="allgacha" class="nav-item">所有限时阁</a>
+            <a data-page="blindbox" class="nav-item">奇趣盲盒</a>
             <a data-page="changelog" class="nav-item">更新日志</a>
         </div>
         <div style="display:flex; gap:4px;">
@@ -481,6 +482,7 @@
         <a data-page="six" class="nav-item">六星阁</a>
         <a data-page="predict" class="nav-item">复刻预测</a>
         <a data-page="allgacha" class="nav-item">所有限时阁</a>
+        <a data-page="blindbox" class="nav-item">奇趣盲盒</a>
         <a data-page="changelog" class="nav-item">更新日志</a>
     </div>
 </div>
@@ -557,6 +559,18 @@
         { id:"five_27", star:5, officialName:"绮心蜜约", nick:"蛋糕赛博人鱼", firstStart:"2026-04-07", firstEnd:"2026-04-28", reissue:[], sets:["恋恋香颂","零号塞壬"], setParts:[10,12], signature:"赛博鱼尾", decomposeItems:["【发型】湖畔之诗","【连衣裙】甜爆预警","【外套】青云缕"] },
         { id:"five_28", star:5, officialName:"幻灵古卷", nick:"书卷凤凰", firstStart:"2026-05-19", firstEnd:"2026-06-09", reissue:[], sets:["籍梦载年","玄凰引昼"], setParts:[10,11], signature:"凤凰羽", decomposeItems:["【发型】雍华临天","【连衣裙】假日晴空","【饰品】天使游戏"] }
     ];
+    const blindboxData = [
+        { id:"blindbox_1", name:"殷夜堇华", firstStart:"2023-12-29", firstEnd:"2024-03-26", rerunStart:"2026-03-17", rerunEnd:"2026-06-13", totalParts:10, signature:"殷夜花冠" },
+        { id:"blindbox_2", name:"旋梦王国", firstStart:"2024-04-08", firstEnd:"2024-07-05", rerunStart:"2026-03-17", rerunEnd:"2026-06-13", totalParts:10, signature:"旋梦权杖" },
+        { id:"blindbox_3", name:"霁梦花吻", firstStart:"2024-07-24", firstEnd:"2024-10-20", totalParts:10, signature:"花吻之息" },
+        { id:"blindbox_10", name:"雪梦信使", firstStart:"2024-12-05", firstEnd:"2025-03-03", totalParts:10, signature:"雪梦信使" },
+        { id:"blindbox_4", name:"谜兔狂想", firstStart:"2025-03-05", firstEnd:"2025-06-01", totalParts:10, signature:"谜兔之耳" },
+        { id:"blindbox_5", name:"天谪星砂", firstStart:"2025-06-07", firstEnd:"2025-09-03", totalParts:10, signature:"星砂之泪" },
+        { id:"blindbox_6", name:"骑士终章", firstStart:"2025-09-09", firstEnd:"2025-12-06", totalParts:10, signature:"骑士之盾" },
+        { id:"blindbox_7", name:"瓷赋霓裳", firstStart:"2025-12-06", firstEnd:"2026-03-04", totalParts:10, signature:"霓裳羽衣" },
+        { id:"blindbox_8", name:"华廷靡曼", firstStart:"2026-03-17", firstEnd:"2026-06-13", totalParts:10, signature:"靡曼之冠" },
+        { id:"blindbox_9", name:"赤焰傲冕", firstStart:"2026-06-20", firstEnd:"2026-09-16", totalParts:10, signature:"赤焰之冕" }
+    ];
     const gachaData = [...sixStarData, ...fiveStarData];
     
     // ================= 用户确认数据（覆盖系统预测） =================
@@ -586,6 +600,7 @@
     const SHOW_WRONG_GUESS = false;
     // 更新日志数据（最新在上，前4条显示在首页和弹窗）
     const CHANGELOG_DATA = [
+        { date: "2026-06-18", content: "新增盲盒" },
         { date: "2026-06-13", content: "新增五星阁选项：捞个裙子就跑！" },
         { date: "2026-06-13", content: "新增所有限时阁板块" },
         { date: "2026-06-13", content: "优化页面切换动画" },
@@ -629,6 +644,7 @@
     }
     const fiveStatusMap = { 'want_set1':'🎯 我要第一套！', 'want_set2':'🎯 我要第二套！', 'none':'💤 我都不要！', 'both':'✨ 我都要！', 'all_color':'🎨 我要全拓色！', 'all_pose':'💃 我要全特姿！', 'skirt':'👗 捞条裙子就跑！'  };
     const sixStatusMap = { 'done':'✅ 抽完啦！', 'want':'🎯 抽齐她！', 'skip':'💤 我不想要！', 'partial':'✨ 我想要其中一个！', 'color':'🎨 我要拓色！', 'pose':'💃 我要特姿！' };
+    const blindboxStatusMap = { 'skirt':'👗 抽裙子！', 'full':'✨ 抽全套！', 'color':'🎨 抽拓色！', 'pose':'💃 抽特姿！','skip':'💤 我不喜欢！'  };
     function loadProgress() { const saved = localStorage.getItem(STORAGE_KEY); try { return saved ? JSON.parse(saved) : {}; } catch(e){ return {}; } }
     function saveProgress(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
     function getProgress(gachaId, store) { 
@@ -705,6 +721,36 @@
                 <button class="status-btn ${currentStatus==='partial'?'active':''}" data-status="partial">✨ 我想要其中一个！</button>
                 <button class="status-btn ${currentStatus==='color'?'active':''}" data-status="color">🎨 我要拓色！</button>
                 <button class="status-btn ${currentStatus==='pose'?'active':''}" data-status="pose">💃 我要特姿！</button>
+            </div>
+            <div class="progress-count-row"><span>📦 部件收集</span><input type="number" class="count-input" min="0" max="${gacha.totalParts}" value="${prog.collected ?? 0}"><span>/ ${gacha.totalParts}</span></div>
+            <div class="progress-count-row"><span>🎨 拓色收集</span><input type="number" class="count-input color-count" min="0" max="${gacha.totalParts}" value="${colorCollected}"><span>/ ${gacha.totalParts}</span></div>
+            <input type="text" class="progress-note-input" placeholder="补充记录" value="${escapeHtml(prog.customNote || '')}">
+        </div>`; 
+    }
+    function renderBlindboxReadonlySummary(prog, totalParts) { 
+        const statusDisplay = blindboxStatusMap[prog.status] || '未设置目标'; 
+        const collected = prog.collected ?? 0;
+        const colorCollected = prog.colorCollected ?? 0;
+        
+        return `<div class="readonly-summary">
+            <div class="summary-line">📌 目标：${statusDisplay}</div>
+            <div class="summary-line">📦 部件：${collected}/${totalParts} &nbsp;&nbsp; 🎨 拓色：${colorCollected}/${totalParts}</div>
+            ${prog.customNote ? `<div class="summary-line">📝 备注：${escapeHtml(prog.customNote)}</div>` : ''}
+            <div class="progress-actions"><button class="edit-progress-btn">✏️ 编辑进度</button></div>
+        </div>`; 
+    }
+
+    function renderBlindboxEditPanel(gacha, prog) { 
+        const currentStatus = prog.status || ''; 
+        const colorCollected = prog.colorCollected ?? 0;
+        return `<div class="progress-panel" data-editing="true">
+            <div class="progress-title"><span>📝 编辑我的进度</span><button class="save-progress-btn">💾 保存</button></div>
+            <div class="progress-status-row">
+                <button class="status-btn ${currentStatus==='skirt'?'active':''}" data-status="skirt">👗 抽裙子！</button>
+                <button class="status-btn ${currentStatus==='full'?'active':''}" data-status="full">✨ 抽全套！</button>
+                <button class="status-btn ${currentStatus==='color'?'active':''}" data-status="color">🎨 抽拓色！</button>
+                <button class="status-btn ${currentStatus==='pose'?'active':''}" data-status="pose">💃 抽特姿！</button>
+                <button class="status-btn ${currentStatus==='skip'?'active':''}" data-status="skip">💤 我不喜欢！</button>
             </div>
             <div class="progress-count-row"><span>📦 部件收集</span><input type="number" class="count-input" min="0" max="${gacha.totalParts}" value="${prog.collected ?? 0}"><span>/ ${gacha.totalParts}</span></div>
             <div class="progress-count-row"><span>🎨 拓色收集</span><input type="number" class="count-input color-count" min="0" max="${gacha.totalParts}" value="${colorCollected}"><span>/ ${gacha.totalParts}</span></div>
@@ -1048,20 +1094,81 @@
         </div>
     `;
 }
+    // ================= 盲盒页面 =================
+    function renderBlindboxPage(store) {
+        const sorted = [...blindboxData].sort((a,b) => new Date(b.firstStart) - new Date(a.firstStart));
+        
+        const itemsHtml = sorted.map(g => {
+            const prog = getProgress(g.id, store);
+            const isEditing = prog.isEditing === true;
+            const starLabel = "五星盲盒";
+            
+            return `<div class="gacha-card" data-gacha-id="${g.id}">
+                <div class="card-header"><h3>${g.name}</h3><span class="star-badge">${starLabel}</span></div>
+                <div class="card-info">
+                    <div class="info-row"><span class="info-label">📅 首次</span><span class="time-highlight">${g.firstStart} ~ ${g.firstEnd}</span></div>
+                    ${g.rerunStart ? `<div class="info-row"><span class="info-label">🔄 复刻</span><span class="time-highlight">${g.rerunStart} ~ ${g.rerunEnd}</span></div>` : ''}
+                </div>
+                ${isEditing ? renderBlindboxEditPanel(g, prog) : renderBlindboxReadonlySummary(prog, g.totalParts)}
+            </div>`;
+        }).join('');
+        
+        return `<div><h2 style="margin:20px 0">🎁 五星盲盒 (${sorted.length}个)</h2><div class="cards-grid">${itemsHtml}</div></div>`;
+    }
+
+    function renderBlindboxCard(store) {
+    // 只显示进行中的盲盒
+    const now = new Date();
+    const sorted = [...blindboxData]
+        .filter(g => {
+            const start = new Date(g.firstStart);
+            const end = new Date(g.firstEnd);
+            return now >= start && now <= end;
+        })
+        .sort((a,b) => new Date(b.firstStart) - new Date(a.firstStart));
+    
+    if (sorted.length === 0) {
+        return `<div class="home-current-panel" style="background: linear-gradient(135deg, #fef0e8, #fce4d8); border-color: #f0ccc0;">
+            <div class="home-section-title" style="color:#b77d5e; border-left-color:#d9aa8b;">🎁 进行中的盲盒</div>
+            <div style="padding:16px;color:#9b7b64;">暂无进行中的盲盒</div>
+        </div>`;
+    }
+    
+    const html = sorted.map(g => {
+        const prog = getProgress(g.id, store);
+        const collected = prog.collected ?? 0;
+        return `<div class="current-card" data-jump-nick="${g.name}" style="cursor:pointer;">
+            <div class="current-name">${g.name}<span class="current-star-badge">盲盒</span></div>
+            <div class="current-date">📅 ${g.firstStart} ~ ${g.firstEnd}</div>
+            <div style="font-size:0.7rem;color:#b77d5e;margin-top:6px;">📦 ${collected}/${g.totalParts}</div>
+        </div>`;
+    }).join('');
+    
+    return `<div class="home-current-panel" style="background: linear-gradient(135deg, #fef0e8, #fce4d8); border-color: #f0ccc0;">
+        <div class="home-section-title" style="color:#b77d5e; border-left-color:#d9aa8b;">🎁 进行中的盲盒</div>
+        <div class="current-list-horizontal">${html}</div>
+    </div>`;
+}
     function renderHome(store){ const sixCount = sixStarData.length; const fiveCount = fiveStarData.length; const currentGachas = getCurrentGachas(); const upcomingReruns = getUpcomingReruns(); const homeChangelogHTML = CHANGELOG_DATA.slice(0,4).map(item => 
             `<li><span class="changelog-date">${item.date}</span> ${item.content}</li>`
         ).join('');
-        const changelogSection = `<div class="update-log-area"><strong>📋 最近更新</strong><ul class="changelog-list">${homeChangelogHTML}</ul><div style="text-align:right; margin-top:8px;"><a data-page="changelog" style="color:#b77d5e; cursor:pointer; font-size:0.7rem;">📖 查看全部 →</a></div></div>`;return `<div style="text-align:center;margin:20px 0 10px"><h2>📖 以闪亮之名·限时阁百科</h2><p>六星${sixCount} · 五星${fiveCount} (双套独立进度) | 所有时间均为北京时间（UTC+8）</p></div><div class="home-current-panel"><div class="home-section-title">🎯 正在进行的限时阁 (${CURRENT_DATE.getFullYear()}.${CURRENT_DATE.getMonth()+1}.${CURRENT_DATE.getDate()})</div><div class="current-list-horizontal">${currentGachas.map(g => `<div class="current-card" data-jump-nick="${g.nick}"><div class="current-name">${g.displayName}<span class="current-star-badge">${g.star===6?'六星':'五星'}</span><span style="font-size:0.7rem;background:#d9aa8b20;padding:2px 8px;border-radius:20px;">${g.type}</span></div><div class="current-date">📅 ${g.displayDate}</div></div>`).join('')}</div></div><div class="home-upcoming-panel"><div class="home-section-title">🔜 即将开启的复刻阁</div><div class="current-list-horizontal">${upcomingReruns.length ? upcomingReruns.map(g => `<div class="current-card" data-jump-nick="${g.nick}"><div class="current-name">${g.displayName}<span class="current-star-badge">${g.star===6?'六星':'五星'}</span><span style="font-size:0.7rem;background:#d9aa8b20;padding:2px 8px;border-radius:20px;">${g.type}</span></div><div class="current-date">📅 ${g.displayDate}</div></div>`).join('') : '<div style="padding:16px;color:#9b7b64;">暂无即将开启的复刻阁</div>'}</div></div><div class="category-grid"><div class="cat-card five-star" data-nav="five"><span>🌸</span><h2>双五星限时阁</h2></div><div class="cat-card six-star" data-nav="six"><span>👑</span><h2>六星限时阁</h2></div><div class="cat-card" style="border-top-color:#b8c9a6" data-nav="predict"><span>🔮</span><h2>复刻预测</h2></div><div class="cat-card" style="border-top-color:#e891a9" data-nav="allgacha"><span>📋</span><h2>查看所有限时阁</h2></div></div>${changelogSection}</div>` }
+        const changelogSection = `<div class="update-log-area"><strong>📋 最近更新</strong><ul class="changelog-list">${homeChangelogHTML}</ul><div style="text-align:right; margin-top:8px;"><a data-page="changelog" style="color:#b77d5e; cursor:pointer; font-size:0.7rem;">📖 查看全部 →</a></div></div>`;return `<div style="text-align:center;margin:20px 0 10px"><h2>📖 以闪亮之名·限时阁百科</h2><p>六星${sixCount} · 五星${fiveCount} (双套独立进度) | 所有时间均为北京时间（UTC+8）</p></div><div class="home-current-panel"><div class="home-section-title">🎯 正在进行的限时阁 (${CURRENT_DATE.getFullYear()}.${CURRENT_DATE.getMonth()+1}.${CURRENT_DATE.getDate()})</div><div class="current-list-horizontal">${currentGachas.map(g => `<div class="current-card" data-jump-nick="${g.nick}"><div class="current-name">${g.displayName}<span class="current-star-badge">${g.star===6?'六星':'五星'}</span><span style="font-size:0.7rem;background:#d9aa8b20;padding:2px 8px;border-radius:20px;">${g.type}</span></div><div class="current-date">📅 ${g.displayDate}</div></div>`).join('')}</div></div><div class="home-upcoming-panel"><div class="home-section-title">🔜 即将开启的复刻阁</div><div class="current-list-horizontal">${upcomingReruns.length ? upcomingReruns.map(g => `<div class="current-card" data-jump-nick="${g.nick}"><div class="current-name">${g.displayName}<span class="current-star-badge">${g.star===6?'六星':'五星'}</span><span style="font-size:0.7rem;background:#d9aa8b20;padding:2px 8px;border-radius:20px;">${g.type}</span></div><div class="current-date">📅 ${g.displayDate}</div></div>`).join('') : '<div style="padding:16px;color:#9b7b64;">暂无即将开启的复刻阁</div>'}</div></div>${renderBlindboxCard(store)}<div class="category-grid"><div class="cat-card five-star" data-nav="five"><span>🌸</span><h2>双五星限时阁</h2></div><div class="cat-card six-star" data-nav="six"><span>👑</span><h2>六星限时阁</h2></div><div class="cat-card" style="border-top-color:#b8c9a6" data-nav="predict"><span>🔮</span><h2>复刻预测</h2></div><div class="cat-card" style="border-top-color:#e891a9" data-nav="allgacha"><span>📋</span><h2>查看所有限时阁</h2></div><div class="cat-card" style="border-top-color:#e8b0c0" data-nav="blindbox"><span>🎁</span><h2>奇趣盲盒</h2></div></div>${changelogSection}</div>` }
     function bindCurrentCardJump() { document.querySelectorAll('.current-card[data-jump-nick]').forEach(card => { card.removeEventListener('click', currentCardClickHandler); card.addEventListener('click', currentCardClickHandler); }); }
     function currentCardClickHandler(e) { const nick = this.getAttribute('data-jump-nick'); if (nick) jumpToGacha(nick); }
     function bindAllEvents(store) { 
         document.querySelectorAll('.gacha-card').forEach(card => { 
-            const gachaId = card.getAttribute('data-gacha-id'); 
-            const gacha = gachaData.find(g=>g.id===gachaId); 
-            if(!gacha) return; 
-            const prog = getProgress(gachaId, store); 
-            const isEditing = prog.isEditing === true; 
-            const isFive = gacha.star === 5; 
+        const gachaId = card.getAttribute('data-gacha-id'); 
+        // 先在 gachaData 中查找，找不到再查 blindboxData
+        let gacha = gachaData.find(g=>g.id===gachaId); 
+        if (!gacha) {
+            gacha = blindboxData.find(g=>g.id===gachaId);
+        }
+        if(!gacha) return; 
+        const prog = getProgress(gachaId, store); 
+        const isEditing = prog.isEditing === true; 
+        // 判断是否为五星（盲盒和五星都走 isFive 逻辑？盲盒走 else）
+        const isFive = gacha.star === 5; 
+        const isBlindbox = gacha.totalParts !== undefined && gacha.star === undefined; 
             
             const editBtn = card.querySelector('.edit-progress-btn'); 
             if(editBtn && !isEditing) {
@@ -1197,107 +1304,128 @@
         }); 
         
         document.querySelectorAll('.gacha-card').forEach(card => { 
-            const header = card.querySelector('.card-header,.card-info'); 
-            if(header) {
-                header.addEventListener('click', (e) => { 
-                    if(e.target.closest('.progress-panel')||e.target.closest('.edit-progress-btn')||e.target.closest('.save-progress-btn')) return; 
-                    const id = card.getAttribute('data-gacha-id'); 
-                    const data = gachaData.find(g=>g.id===id); 
-                    if(data){ 
-    // 获取图片URL（支持六星和五星）
-    const getImageUrl = (gachaData) => {
-        // 六星图片映射
-        const sixStarMap = {
-            "海王": "haiwang.jpeg", "赋雪": "fuxue.jpeg", "爱神": "aishen.jpeg", "嫦娥": "change.jpeg",
-            "鸢尾": "yuanwei.jpeg", "发条": "fatiao.jpeg", "蜀绣": "shuxiu.jpeg", "龙母": "longmu.jpeg",
-            "九尾": "jiuwei.jpeg", "玛丽苏": "malisu.jpeg", "傀儡": "kuilei.jpeg", "人鱼": "renyu.jpeg",
-            "白泽": "baize.jpeg", "阁楼": "gelou.jpeg", "独角兽": "dujiaoshou.jpeg", "青鸾": "qingluan.jpeg",
-            "吸血鬼": "xixuegui.jpeg", "竖琴": "shuqin.jpeg", "圣域": "shengyu.jpeg", "傩母": "nuomu.jpeg",
-            "大月神": "shouyue.jpeg", "洋娃娃": "yangwawa.jpeg", "不死鸟": "businiao.jpeg", "玛丽": "mali.jpeg",
-            "白虎": "baihu.jpeg", "美杜莎": "meidusha.jpeg", "百合": "baihe.jpeg", "小羊": "xiaoyang.jpeg"
-        };
-        
-        // 五星图片映射（按套装名称）
-        const fiveStarMap = {
-            "卧月灼莲": "dunhuang.jpeg", "盛世华廷": "huating.jpg",
-            "莫佳娜的礼物": "xiaomonv.jpeg", "倪克斯夜蔷": "damonv.jpg",
-            "绒兔心语": "tuzi.jpeg", "酣竹滚滚": "xiongmao.jpg",
-            "鸾俦夙愿": "zhonghun1.jpeg", "痴梦无诉": "zhonghun2.jpeg",
-            "幻涟缀羽": "jingling.jpeg", "月银九歌": "miaojiang.jpeg",
-            "阿芙洛之绪": "meishen.jpeg", "湖心旋舞": "balei.jpeg",
-            "驯鹿精灵": "xiaolu.jpeg", "樱雪春祈": "hefu.jpeg",
-            "沉梦魔咒": "moo.jpeg", "金翎浮年": "kongque.jpeg",
-            "酷巧甜心": "kuluomi.jpeg", "告白奶芙": "yuguigou.jpeg",
-            "I号机": "Ihaoji.png", "吟游沙语": "jipusai.jpeg",
-            "雪色蝶舞": "hudie.jpeg", "影幕华宴": "guifu.jpeg",
-            "虚数戏梦": "qipao.jpeg", "恒星纪元": "junguan.jpeg",
-            "幻月神裁": "yueshen.jpeg", "赦罪永寐": "emoy.jpeg",
-            "噤声夜谭": "tideng.jpeg", "蜜色蚀心": "baobao.jpeg",
-            "辰祈夜谭": "wuniang.jpeg", "星钥寻踪": "yaoshi.jpeg",
-            "绯雪萦心": "meiyangyang.jpeg", "金羚曜日": "lingyang.jpeg",
-            "甘戮天使": "jiandao.jpeg", "魔猎执事": "shuangqiang.jpeg",
-            "芯璃絮语": "shuijing.jpeg", "枫露晨祷": "dizheng.jpeg",
-            "绯海掠影": "haidao.jpeg", "禁忌咒魇": "shuimeiren.jpeg",
-            "绯蕾魇丝": "zhizhu.jpeg", "血誓荆棘": "yihou.jpeg",
-            "雪映梅妆": "zhenhuan.jpeg", "凤仪万千": "huafei.jpeg",
-            "冥焰熔骨": "emo.jpeg", "羽陨圣卉": "shigao.jpeg",
-            "透明序曲": "xiaoying2.jpeg", "封印解除": "xiaoying1.jpeg",
-            "幽骨蚀光": "miao2.jpeg", "冰璃琉心": "xuehua.jpeg",
-            "星蛾灼穹": "feie.jpeg", "翎羽焚灯": "gudeng.jpeg",
-            "绮野仙踪": "ningfu.jpeg", "兔铃谣梦": "tuou.jpeg",
-            "恋恋香颂": "dangao.jpeg", "零号塞壬": "saiborenyu.jpeg",
-            "籍梦载年": "shujuan.jpeg", "玄凰引昼": "fenghuang.jpeg"
-        };
-        
-        if (gachaData.star === 6) {
-            const fileName = sixStarMap[gachaData.nick];
-            return { type: 'single', url: fileName ? `https://raw.githubusercontent.com/gloriad0719-sketch/Azure/main/image/${fileName}` : null };
-        } else {
-            // 五星阁：返回两套图片
-            const set1Name = gachaData.sets?.[0] || '';
-            const set2Name = gachaData.sets?.[1] || '';
-            const url1 = fiveStarMap[set1Name] ? `https://raw.githubusercontent.com/gloriad0719-sketch/Azure/main/image/${fiveStarMap[set1Name]}` : null;
-            const url2 = fiveStarMap[set2Name] ? `https://raw.githubusercontent.com/gloriad0719-sketch/Azure/main/image/${fiveStarMap[set2Name]}` : null;
-            return { type: 'double', url1, url2, name1: set1Name, name2: set2Name };
-        }
-    };
-    
-    const imgData = getImageUrl(data);
-    let imgHtml = '';
-    if (data.star === 6 && imgData.url) {
-        // 六星：单张图片
-        imgHtml = `<div style="text-align:center; margin:12px 0;">
-            <img src="${imgData.url}" style="max-width:100%; border-radius:16px; max-height:300px;" alt="${data.nick}">
-        </div>`;
-    } else if (data.star === 5 && imgData.type === 'double') {
-        // 五星：可滑动翻页
-        const imgId = `carousel_${data.id}`;
-        imgHtml = `
-        <div style="position:relative; margin:12px 0; touch-action: pan-y pinch-zoom;">
-            <div id="${imgId}" style="position:relative; min-height:250px; overflow:hidden;">
-                <div style="text-align:center;">
-                    <img src="${imgData.url1}" style="max-width:100%; border-radius:16px; max-height:250px; cursor:pointer;" id="${imgId}_img" ondragstart="return false">
-                    <div style="font-size:0.8rem; color:#b77d5e; margin-top:8px; font-weight:500;" id="${imgId}_name">${imgData.name1}</div>
-                </div>
-            </div>
-            <button class="carousel-prev" data-id="${imgId}" data-url1="${imgData.url1}" data-url2="${imgData.url2}" data-name1="${imgData.name1}" data-name2="${imgData.name2}" style="position:absolute; left:5px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.4); color:white; border:none; border-radius:50%; width:36px; height:36px; cursor:pointer; font-size:1.2rem; display:flex; align-items:center; justify-content:center;">❮</button>
-            <button class="carousel-next" data-id="${imgId}" data-url1="${imgData.url1}" data-url2="${imgData.url2}" data-name1="${imgData.name1}" data-name2="${imgData.name2}" style="position:absolute; right:5px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.4); color:white; border:none; border-radius:50%; width:36px; height:36px; cursor:pointer; font-size:1.2rem; display:flex; align-items:center; justify-content:center;">❯</button>
-            <div style="text-align:center; margin-top:8px;">
-                <span class="dot" data-id="${imgId}" data-index="0" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#d9aa8b; margin:0 4px;"></span>
-                <span class="dot" data-id="${imgId}" data-index="1" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#ddd; margin:0 4px;"></span>
-            </div>
-        </div>`;
-    }                   if (data.star === 5 && imgData.type === 'double') {
-            setTimeout(() => {
-                initCarousel(`carousel_${data.id}`, imgData.url1, imgData.url2, imgData.name1, imgData.name2);
-            }, 50);
-        }     
-                        modalContent.innerHTML = `${imgHtml}<h2>${data.officialName} (${data.nick})</h2><div class="modal-detail-block"><strong>📅 首次</strong> ${data.firstStart}~${data.firstEnd}<br><strong>🔄 复刻</strong> ${data.reissue.length?data.reissue.map(r=>`📌 ${r}`).join('<br>'):'暂无'}</div><div class="decom-full-list"><strong>🏪 分解商店清单</strong><br/>${data.decomposeItems.map(i=>`<p>✨ ${i}</p>`).join('')}</div><div class="modal-detail-block"><strong style="font-size:0.85rem;">📦 ${data.star===5?'部件数':''}</strong><span style="font-size:0.85rem;"> ${data.star===5?data.sets.map((s,i)=>`${s}:${data.setParts[i]}件`).join(' / '):`总部件 ${data.totalParts}件`}</div>`; 
-                        modal.style.display = "flex"; 
-                    } 
-                }); 
+    const header = card.querySelector('.card-header,.card-info'); 
+    if(header) {
+        header.addEventListener('click', (e) => { 
+            if(e.target.closest('.progress-panel')||e.target.closest('.edit-progress-btn')||e.target.closest('.save-progress-btn')) return; 
+            const id = card.getAttribute('data-gacha-id'); 
+            let data = gachaData.find(g=>g.id===id);
+            
+            // 如果是盲盒，单独处理
+            if (!data) {
+                const blindboxItem = blindboxData.find(g=>g.id===id);
+                if (blindboxItem) {
+                    const blindboxImageMap = {
+                        "殷夜堇华": "yinye.jpeg",
+                        "旋梦王国": "xuanmeng.jpeg",
+                        "霁梦花吻": "jimeng.jpeg",
+                        "谜兔狂想": "mitu.jpeg",
+                        "天谪星砂": "tianzhe.jpeg",
+                        "骑士终章": "qishi.jpeg",
+                        "瓷赋霓裳": "cifu.jpeg",
+                        "华廷靡曼": "miman.jpeg",
+                        "赤焰傲冕": "chiyan.jpeg",
+                        "雪梦信使": "xuemeng.jpeg"
+                    };
+                    const imgFile = blindboxImageMap[blindboxItem.name];
+                    const imgUrl = imgFile ? `https://raw.githubusercontent.com/gloriad0719-sketch/Azure/main/image/${imgFile}` : null;
+                    const imgHtml = imgUrl ? `<div style="text-align:center; margin:12px 0;"><img src="${imgUrl}" style="max-width:100%; border-radius:16px; max-height:300px;" alt="${blindboxItem.name}"></div>` : '';
+                    modalContent.innerHTML = `${imgHtml}<h2>${blindboxItem.name}</h2><div class="modal-detail-block"><strong>📅 首次</strong> ${blindboxItem.firstStart}~${blindboxItem.firstEnd}${blindboxItem.rerunStart ? `<br><strong>🔄 复刻</strong> ${blindboxItem.rerunStart}~${blindboxItem.rerunEnd}` : ''}</div>`;
+                    modal.style.display = "flex";
+                    return;
+                }
+                return;
             }
-        }); 
+            
+            // 以下是六星/五星的图片逻辑（使用 data 变量）
+            const getImageUrl = (gachaData) => {
+                const sixStarMap = {
+                    "海王": "haiwang.jpeg", "赋雪": "fuxue.jpeg", "爱神": "aishen.jpeg", "嫦娥": "change.jpeg",
+                    "鸢尾": "yuanwei.jpeg", "发条": "fatiao.jpeg", "蜀绣": "shuxiu.jpeg", "龙母": "longmu.jpeg",
+                    "九尾": "jiuwei.jpeg", "玛丽苏": "malisu.jpeg", "傀儡": "kuilei.jpeg", "人鱼": "renyu.jpeg",
+                    "白泽": "baize.jpeg", "阁楼": "gelou.jpeg", "独角兽": "dujiaoshou.jpeg", "青鸾": "qingluan.jpeg",
+                    "吸血鬼": "xixuegui.jpeg", "竖琴": "shuqin.jpeg", "圣域": "shengyu.jpeg", "傩母": "nuomu.jpeg",
+                    "大月神": "shouyue.jpeg", "洋娃娃": "yangwawa.jpeg", "不死鸟": "businiao.jpeg", "玛丽": "mali.jpeg",
+                    "白虎": "baihu.jpeg", "美杜莎": "meidusha.jpeg", "百合": "baihe.jpeg", "小羊": "xiaoyang.jpeg"
+                };
+                const fiveStarMap = {
+                    "卧月灼莲": "dunhuang.jpeg", "盛世华廷": "huating.jpg",
+                    "莫佳娜的礼物": "xiaomonv.jpeg", "倪克斯夜蔷": "damonv.jpg",
+                    "绒兔心语": "tuzi.jpeg", "酣竹滚滚": "xiongmao.jpg",
+                    "鸾俦夙愿": "zhonghun1.jpeg", "痴梦无诉": "zhonghun2.jpeg",
+                    "幻涟缀羽": "jingling.jpeg", "月银九歌": "miaojiang.jpeg",
+                    "阿芙洛之绪": "meishen.jpeg", "湖心旋舞": "balei.jpeg",
+                    "驯鹿精灵": "xiaolu.jpeg", "樱雪春祈": "hefu.jpeg",
+                    "沉梦魔咒": "moo.jpeg", "金翎浮年": "kongque.jpeg",
+                    "酷巧甜心": "kuluomi.jpeg", "告白奶芙": "yuguigou.jpeg",
+                    "I号机": "Ihaoji.png", "吟游沙语": "jipusai.jpeg",
+                    "雪色蝶舞": "hudie.jpeg", "影幕华宴": "guifu.jpeg",
+                    "虚数戏梦": "qipao.jpeg", "恒星纪元": "junguan.jpeg",
+                    "幻月神裁": "yueshen.jpeg", "赦罪永寐": "emoy.jpeg",
+                    "噤声夜谭": "tideng.jpeg", "蜜色蚀心": "baobao.jpeg",
+                    "辰祈夜谭": "wuniang.jpeg", "星钥寻踪": "yaoshi.jpeg",
+                    "绯雪萦心": "meiyangyang.jpeg", "金羚曜日": "lingyang.jpeg",
+                    "甘戮天使": "jiandao.jpeg", "魔猎执事": "shuangqiang.jpeg",
+                    "芯璃絮语": "shuijing.jpeg", "枫露晨祷": "dizheng.jpeg",
+                    "绯海掠影": "haidao.jpeg", "禁忌咒魇": "shuimeiren.jpeg",
+                    "绯蕾魇丝": "zhizhu.jpeg", "血誓荆棘": "yihou.jpeg",
+                    "雪映梅妆": "zhenhuan.jpeg", "凤仪万千": "huafei.jpeg",
+                    "冥焰熔骨": "emo.jpeg", "羽陨圣卉": "shigao.jpeg",
+                    "透明序曲": "xiaoying2.jpeg", "封印解除": "xiaoying1.jpeg",
+                    "幽骨蚀光": "miao2.jpeg", "冰璃琉心": "xuehua.jpeg",
+                    "星蛾灼穹": "feie.jpeg", "翎羽焚灯": "gudeng.jpeg",
+                    "绮野仙踪": "ningfu.jpeg", "兔铃谣梦": "tuou.jpeg",
+                    "恋恋香颂": "dangao.jpeg", "零号塞壬": "saiborenyu.jpeg",
+                    "籍梦载年": "shujuan.jpeg", "玄凰引昼": "fenghuang.jpeg"
+                };
+                
+                if (gachaData.star === 6) {
+                    const fileName = sixStarMap[gachaData.nick];
+                    return { type: 'single', url: fileName ? `https://raw.githubusercontent.com/gloriad0719-sketch/Azure/main/image/${fileName}` : null };
+                } else {
+                    const set1Name = gachaData.sets?.[0] || '';
+                    const set2Name = gachaData.sets?.[1] || '';
+                    const url1 = fiveStarMap[set1Name] ? `https://raw.githubusercontent.com/gloriad0719-sketch/Azure/main/image/${fiveStarMap[set1Name]}` : null;
+                    const url2 = fiveStarMap[set2Name] ? `https://raw.githubusercontent.com/gloriad0719-sketch/Azure/main/image/${fiveStarMap[set2Name]}` : null;
+                    return { type: 'double', url1, url2, name1: set1Name, name2: set2Name };
+                }
+            };
+            
+            const imgData = getImageUrl(data);
+            let imgHtml = '';
+            if (data.star === 6 && imgData.url) {
+                imgHtml = `<div style="text-align:center; margin:12px 0;">
+                    <img src="${imgData.url}" style="max-width:100%; border-radius:16px; max-height:300px;" alt="${data.nick}">
+                </div>`;
+            } else if (data.star === 5 && imgData.type === 'double') {
+                const imgId = `carousel_${data.id}`;
+                imgHtml = `
+                <div style="position:relative; margin:12px 0; touch-action: pan-y pinch-zoom;">
+                    <div id="${imgId}" style="position:relative; min-height:250px; overflow:hidden;">
+                        <div style="text-align:center;">
+                            <img src="${imgData.url1}" style="max-width:100%; border-radius:16px; max-height:250px; cursor:pointer;" id="${imgId}_img" ondragstart="return false">
+                            <div style="font-size:0.8rem; color:#b77d5e; margin-top:8px; font-weight:500;" id="${imgId}_name">${imgData.name1}</div>
+                        </div>
+                    </div>
+                    <button class="carousel-prev" data-id="${imgId}" data-url1="${imgData.url1}" data-url2="${imgData.url2}" data-name1="${imgData.name1}" data-name2="${imgData.name2}" style="position:absolute; left:5px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.4); color:white; border:none; border-radius:50%; width:36px; height:36px; cursor:pointer; font-size:1.2rem; display:flex; align-items:center; justify-content:center;">❮</button>
+                    <button class="carousel-next" data-id="${imgId}" data-url1="${imgData.url1}" data-url2="${imgData.url2}" data-name1="${imgData.name1}" data-name2="${imgData.name2}" style="position:absolute; right:5px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.4); color:white; border:none; border-radius:50%; width:36px; height:36px; cursor:pointer; font-size:1.2rem; display:flex; align-items:center; justify-content:center;">❯</button>
+                    <div style="text-align:center; margin-top:8px;">
+                        <span class="dot" data-id="${imgId}" data-index="0" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#d9aa8b; margin:0 4px;"></span>
+                        <span class="dot" data-id="${imgId}" data-index="1" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#ddd; margin:0 4px;"></span>
+                    </div>
+                </div>`;
+            }
+            if (data.star === 5 && imgData.type === 'double') {
+                setTimeout(() => {
+                    initCarousel(`carousel_${data.id}`, imgData.url1, imgData.url2, imgData.name1, imgData.name2);
+                }, 50);
+            }
+            
+            modalContent.innerHTML = `${imgHtml}<h2>${data.officialName} (${data.nick})</h2><div class="modal-detail-block"><strong>📅 首次</strong> ${data.firstStart}~${data.firstEnd}<br><strong>🔄 复刻</strong> ${data.reissue.length?data.reissue.map(r=>`📌 ${r}`).join('<br>'):'暂无'}</div><div class="decom-full-list"><strong>🏪 分解商店清单</strong><br/>${data.decomposeItems.map(i=>`<p>✨ ${i}</p>`).join('')}</div><div class="modal-detail-block"><strong style="font-size:0.85rem;">📦 ${data.star===5?'部件数':''}</strong><span style="font-size:0.85rem;"> ${data.star===5?data.sets.map((s,i)=>`${s}:${data.setParts[i]}件`).join(' / '):`总部件 ${data.totalParts}件`}</span></div>`;
+            modal.style.display = "flex";
+        });
+    }
+}); 
         
         // 分解商店标签点击切换（点击变色保存）
         document.querySelectorAll('.decom-tag').forEach(tag => {
@@ -1572,7 +1700,9 @@ document.querySelectorAll('.compact-card').forEach(card => {
     } else if(currentPage==="six") {
         appRoot.innerHTML = renderStarPage(6, store);
     } else if(currentPage==="allgacha") {
-        appRoot.innerHTML = renderAllGacha(store);   // ← 新增
+        appRoot.innerHTML = renderAllGacha(store);   
+    } else if(currentPage==="blindbox") {
+        appRoot.innerHTML = renderBlindboxPage(store);
     } else if(currentPage==="predict") {
         appRoot.innerHTML = renderPrediction();
     } else if(currentPage==="changelog") {
