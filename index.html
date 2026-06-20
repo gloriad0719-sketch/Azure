@@ -458,7 +458,7 @@
         <button class="menu-toggle" id="menuToggle">☰</button>
         <div class="logo"id="logoHome" style="cursor:pointer;">
             <h1>✨ 以闪亮之名·阁录</h1>
-            <p>v2026.06.18.01 | 新增盲盒</p>
+            <p>v2026.06.18.02 | 新增盲盒</p>
         </div>
         <div class="nav-links">
             <a data-page="home" class="nav-item active">首页</a>
@@ -600,6 +600,7 @@
     const SHOW_WRONG_GUESS = false;
     // 更新日志数据（最新在上，前4条显示在首页和弹窗）
     const CHANGELOG_DATA = [
+        { date: "2026-06-20", content: "修复盲盒卡片无法点击的问题" },
         { date: "2026-06-18", content: "新增盲盒" },
         { date: "2026-06-13", content: "新增五星阁选项：捞个裙子就跑！" },
         { date: "2026-06-13", content: "新增所有限时阁板块" },
@@ -907,7 +908,34 @@
         return unique; 
     }
     
-    function jumpToGacha(gachaNick) { const gacha = gachaData.find(g => g.nick === gachaNick); if (!gacha) return; setPage(gacha.star === 5 ? "five" : "six"); setTimeout(() => { const card = document.querySelector(`.gacha-card[data-gacha-id="${gacha.id}"]`); if (card) { card.scrollIntoView({ behavior: "smooth", block: "center" }); card.style.boxShadow = "0 0 0 3px #d9aa8b, 0 8px 20px rgba(0,0,0,0.15)"; setTimeout(() => { card.style.boxShadow = ""; }, 1500); } }, 100); }
+    function jumpToGacha(gachaNick) { 
+    let gacha = gachaData.find(g => g.nick === gachaNick); 
+    if (!gacha) {
+        gacha = blindboxData.find(g => g.name === gachaNick);
+        if (gacha) {
+            setPage("blindbox");
+            setTimeout(() => { 
+                const card = document.querySelector(`.gacha-card[data-gacha-id="${gacha.id}"]`); 
+                if (card) { 
+                    card.scrollIntoView({ behavior: "smooth", block: "center" }); 
+                    card.style.boxShadow = "0 0 0 3px #d9aa8b, 0 8px 20px rgba(0,0,0,0.15)"; 
+                    setTimeout(() => { card.style.boxShadow = ""; }, 1500); 
+                } 
+            }, 100);
+            return;
+        }
+        return;
+    } 
+    setPage(gacha.star === 5 ? "five" : "six"); 
+    setTimeout(() => { 
+        const card = document.querySelector(`.gacha-card[data-gacha-id="${gacha.id}"]`); 
+        if (card) { 
+            card.scrollIntoView({ behavior: "smooth", block: "center" }); 
+            card.style.boxShadow = "0 0 0 3px #d9aa8b, 0 8px 20px rgba(0,0,0,0.15)"; 
+            setTimeout(() => { card.style.boxShadow = ""; }, 1500); 
+        } 
+    }, 100); 
+}
     function getMonthsSince(dateStr, fromDate) { const target = new Date(dateStr); const diffYears = fromDate.getFullYear() - target.getFullYear(); const diffMonths = fromDate.getMonth() - target.getMonth(); return diffYears * 12 + diffMonths; }
     function formatYMD(date) { return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`; }
     function formatDateShort(date) { if (!date) return ''; return `${date.getFullYear()}.${String(date.getMonth()+1).padStart(2,'0')}.${String(date.getDate()).padStart(2,'0')} `; }
@@ -1140,7 +1168,6 @@
         return `<div class="current-card" data-jump-nick="${g.name}" style="cursor:pointer;">
             <div class="current-name">${g.name}<span class="current-star-badge">盲盒</span></div>
             <div class="current-date">📅 ${g.firstStart} ~ ${g.firstEnd}</div>
-            <div style="font-size:0.7rem;color:#b77d5e;margin-top:6px;">📦 ${collected}/${g.totalParts}</div>
         </div>`;
     }).join('');
     
