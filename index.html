@@ -600,6 +600,7 @@
     const SHOW_WRONG_GUESS = false;
     // 更新日志数据（最新在上，前4条显示在首页和弹窗）
     const CHANGELOG_DATA = [
+        { date: "2026-06-23", content: "修复二复日期计算错误的问题" },
         { date: "2026-06-20", content: "修复盲盒卡片无法点击的问题" },
         { date: "2026-06-18", content: "新增盲盒" },
         { date: "2026-06-13", content: "新增五星阁选项：捞个裙子就跑！" },
@@ -783,7 +784,7 @@
         
         // 第二次复刻：当前新阁开启后第15天
         const secondStartDate = new Date(currentNewStartDate);
-        secondStartDate.setDate(currentNewStartDate.getDate() + 15);
+        secondStartDate.setDate(currentNewStartDate.getDate() + 14);
         const secondEndDate = new Date(secondStartDate);
         secondEndDate.setDate(secondStartDate.getDate() + 21);
         
@@ -1038,11 +1039,11 @@
         const firstRerunDate = new Date(nextPeriodStartDate);
         firstRerunDate.setDate(nextPeriodStartDate.getDate() + 8);
         const secondRerunDate = new Date(nextPeriodStartDate);
-        secondRerunDate.setDate(nextPeriodStartDate.getDate() + 15);
+        secondRerunDate.setDate(nextPeriodStartDate.getDate() + 14);
         const nextNextFirstRerunDate = new Date(nextNextPeriodStartDate);
         nextNextFirstRerunDate.setDate(nextNextPeriodStartDate.getDate() + 8);
         const nextNextSecondRerunDate = new Date(nextNextPeriodStartDate);
-        nextNextSecondRerunDate.setDate(nextNextPeriodStartDate.getDate() + 15);
+        nextNextSecondRerunDate.setDate(nextNextPeriodStartDate.getDate() + 14);
         return { 
             nextGachaName, nextPeriodStartDate, 
             nextFirstRerun: firstRerun, nextSecondRerun: secondRerun, nextStar,
