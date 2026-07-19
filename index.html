@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>以闪亮之名 · 限时阁百科 | v2026.06.30</title>
+    <title>以闪亮之名 · 限时阁百科 | v2026.07.19</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.2s ease; }
         .menu-toggle {
@@ -527,7 +527,8 @@
         { id:"six_25", star:6, officialName:"寅魄渡世·寅雪渡尘", nick:"白虎", firstStart:"2026-02-03", firstEnd:"2026-02-24", reissue:[], totalParts:13, signature:"白虎灵魄", decomposeItems:["【连衣裙】廷光秘匙","【翅膀】萤森披梦","【悬浮】瑞驹承曦","【背景】海天一色"] },
         { id:"six_26", star:6, officialName:"蜕梦神华·宙瞳之则", nick:"美杜莎", firstStart:"2026-03-17", firstEnd:"2026-04-07", reissue:[], totalParts:14, signature:"石化之瞳", decomposeItems:["【连衣裙】浮生千景","【翅膀】琉光织梦","【悬浮】糯云团子","【背景】藏花于海"] },
         { id:"six_27", star:6, officialName:"双生花契·无暇花蕊", nick:"百合", firstStart:"2026-04-28", firstEnd:"2026-05-19", reissue:[], totalParts:13, signature:"双生花杖", decomposeItems:["【连衣裙】仙境茶歇","【手持】好运魔法","【翅膀】妖精的葬礼","【背景】遗落伊甸"] },
-        { id:"six_28", star:6, officialName:"蕃神春醺·梦洄蕃野", nick:"小羊", firstStart:"2026-06-09", firstEnd:"2026-06-30", reissue:[], totalParts:14, signature:"月光曼影", decomposeItems:["【连衣裙】月光曼影","【手持】紫焰幽灵","【悬浮】星悬浮光","【背景】荷风灯影"] }
+        { id:"six_28", star:6, officialName:"蕃神春醺·梦洄蕃野", nick:"小羊", firstStart:"2026-06-09", firstEnd:"2026-06-30", reissue:[], totalParts:14, signature:"月光曼影", decomposeItems:["【连衣裙】月光曼影","【手持】紫焰幽灵","【悬浮】星悬浮光","【背景】荷风灯影"] },
+        { id:"six_29", star:6, officialName:"万世平戎·修罗归鞘", nick:"修罗", firstStart:"2026-07-21", firstEnd:"2026-08-11", reissue:[], totalParts:14, signature:"修罗之刃", decomposeItems:["【连衣裙】晨妆轻束","【悬浮】印痕留声","【悬浮】星光路亚"] },
     ];
     const fiveStarData = [
         { id:"five_1", star:5, officialName:"月下盛筵", nick:"敦煌华廷", firstStart:"2023-04-13", firstEnd:"2023-05-04", reissue:["2024-08-15","2025-09-23"], sets:["卧月灼莲","盛世华廷"], setParts:[11,10], signature:"飞天飘带", decomposeItems:["【发型】缭乱花篱","【连衣裙】月笼金沙","【手持】良辰花色"] },
@@ -558,7 +559,7 @@
         { id:"five_26", star:5, officialName:"绮舞铃歌", nick:"宁芙兔偶", firstStart:"2026-02-24", firstEnd:"2026-03-17", reissue:[], sets:["绮野仙踪","兔铃谣梦"], setParts:[10,11], signature:"兔偶铃铛", decomposeItems:["【发型】月泉羽佛","【连衣裙】遗光回旋","【悬浮】秋笺曼舞"] },
         { id:"five_27", star:5, officialName:"绮心蜜约", nick:"蛋糕赛博人鱼", firstStart:"2026-04-07", firstEnd:"2026-04-28", reissue:[], sets:["恋恋香颂","零号塞壬"], setParts:[10,12], signature:"赛博鱼尾", decomposeItems:["【发型】湖畔之诗","【连衣裙】甜爆预警","【外套】青云缕"] },
         { id:"five_28", star:5, officialName:"幻灵古卷", nick:"书卷凤凰", firstStart:"2026-05-19", firstEnd:"2026-06-09", reissue:[], sets:["籍梦载年","玄凰引昼"], setParts:[10,11], signature:"凤凰羽", decomposeItems:["【发型】雍华临天","【连衣裙】假日晴空","【饰品】天使游戏"] },
-        { id:"five_29", star:5, officialName:"珐琅庭香", nick:"珐琅调香", firstStart:"2026-06-30", firstEnd:"2026-07-20", reissue:[], sets:["珐琅晴梦","闻香盛宴"], setParts:[10,11], signature:"珐琅香瓶", decomposeItems:["【帽子】白鹅亮翅","【发型】缱丝入梦","【连衣裙】夜赴金栏"] },
+        { id:"five_29", star:5, officialName:"珐琅庭香", nick:"珐琅调香", firstStart:"2026-06-30", firstEnd:"2026-07-21", reissue:[], sets:["珐琅晴梦","闻香盛宴"], setParts:[10,11], signature:"珐琅香瓶", decomposeItems:["【帽子】白鹅亮翅","【发型】缱丝入梦","【连衣裙】夜赴金栏"] },
     ];
     const blindboxData = [
         { id:"blindbox_1", name:"殷夜堇华", firstStart:"2023-12-29", firstEnd:"2024-03-26", rerunStart:"2026-03-17", rerunEnd:"2026-06-13", totalParts:10, signature:"殷夜花冠" },
@@ -581,13 +582,13 @@
     // 3. 注释或删除即可恢复动态预测
     const USER_CONFIRMED = {
         // 当您确认「小羊」的复刻时，取消下面的注释
-        "小羊": {
-            firstRerun: "三丽鸥",
-            secondRerun: "人鱼"
-        },
         "珐琅调香": {
-        firstRerun: "圣域",
-        secondRerun: "舞娘钥匙"
+            firstRerun: "圣域",
+            secondRerun: "舞娘钥匙"
+        },
+        "修罗": {
+        firstRerun: "海盗睡美人",
+        secondRerun: "玛丽苏"
     },
         // 可以同时确认多个阁子
         // "书卷凤凰": {
@@ -602,9 +603,10 @@
     })();
     const STORAGE_KEY = "gacha_progress_final_v3";
     // 猜错啦板块开关（true=显示，false=隐藏）
-    const SHOW_WRONG_GUESS = false;
+    const SHOW_WRONG_GUESS = true;
     // 更新日志数据（最新在上，前4条显示在首页和弹窗）
     const CHANGELOG_DATA = [
+        { date: "2026-07-19", content: "更新新六星及复刻信息" },
         { date: "2026-06-30", content: "更新双五及复刻信息" },
         { date: "2026-06-27", content: "新增新双五星阁" },
         { date: "2026-06-23", content: "修复二复日期计算错误的问题" },
@@ -1100,9 +1102,9 @@ for (const [nick, confirmed] of confirmedEntries) {
     // =============================================
     function renderPrediction() { const pred = generatePrediction(); if(!pred) return `<div class="prediction-panel"><p>暂无足够数据生成预测</p></div>`; const starText = (s) => s === 6 ? '六星限时阁' : '双五星限时阁'; // 猜错啦板块（固定文本，只有修改代码才能更改）
         const wrongGuessHTML = SHOW_WRONG_GUESS ? `
-            <div class="prediction-card" style="margin-top:20px; background:#e8f5e9; padding:16px;">
-                <h3 style="color:#2e7d32; margin-bottom:12px;">✅ 猜对啦！下一周期的复刻是：</h3>
-                <p style="font-size:1.2rem; font-weight:bold; color:#b1624b;">✨ 圣域&舞娘钥匙 ✨</p>
+            <div class="prediction-card" style="margin-top:20px; background:#fff0e8; padding:16px;">
+                <h3 style="color:#b77d5e; margin-bottom:12px;">❓ 猜错啦！下一周期的复刻是：</h3>
+                <p style="font-size:1.2rem; font-weight:bold; color:#b1624b;">✨ 海盗睡美人&玛丽苏 ✨</p>
                 <p style="font-size:0.7rem; color:#9b7b64; margin-top:8px;">（制作者：堕落母神）</p>
             </div>
         ` : '';return `<div class="prediction-panel"><div class="prediction-title">🔮 复刻阁预测</div><div class="prediction-card"><div class="prediction-date">📌 下个新阁：${pred.nextGachaName}</div><div class="prediction-date" style="margin-top:8px">⏰ 开启时间：${formatDateShort(pred.nextPeriodStartDate)}</div></div><div class="prediction-list"><div class="prediction-item"><h4>📅 第一次复刻 · ${formatYMD(pred.firstRerunDate)}</h4><p>✨ 预测复刻阁名：${pred.nextFirstRerun?.officialName || '待定'} ✦ ${pred.nextFirstRerun?.nick || ''}</p><p>⭐ 星级：${pred.nextFirstRerun ? starText(pred.nextFirstRerun.star) : '—'}</p></div><div class="prediction-item"><h4>📅 第二次复刻 · ${formatYMD(pred.secondRerunDate)}</h4><p>✨ 预测复刻阁名：${pred.nextSecondRerun?.officialName || '待定'} ✦ ${pred.nextSecondRerun?.nick || ''}</p><p>⭐ 星级：${pred.nextSecondRerun ? starText(pred.nextSecondRerun.star) : '—'}</p></div></div>${wrongGuessHTML}<div class="prediction-card" style="margin-top:20px"><div class="prediction-date">📌 下下个新阁预测：${starText(pred.nextNextStar)}</div><div class="prediction-date" style="margin-top:8px">⏰ 预计开启时间：${formatDateShort(pred.nextNextPeriodStartDate)}</div></div><div class="prediction-list"><div class="prediction-item"><h4>📅 第一次复刻 · ${formatYMD(pred.nextNextFirstRerunDate)}</h4><p>✨ 预测复刻阁名：${pred.nextNextFirstRerun?.officialName || '待定'} ✦ ${pred.nextNextFirstRerun?.nick || ''}</p><p>⭐ 星级：${pred.nextNextFirstRerun ? starText(pred.nextNextFirstRerun.star) : '—'}</p></div><div class="prediction-item"><h4>📅 第二次复刻 · ${formatYMD(pred.nextNextSecondRerunDate)}</h4><p>✨ 预测复刻阁名：${pred.nextNextSecondRerun?.officialName || '待定'} ✦ ${pred.nextNextSecondRerun?.nick || ''}</p><p>⭐ 星级：${pred.nextNextSecondRerun ? starText(pred.nextNextSecondRerun.star) : '—'}</p></div></div>${renderPoolGroup(pred.pools)}<div class="rule-box">📖 复刻预测规则：<br/>• 下个新阁开启时间 = 当前新阁结束日<br/>• 第一次复刻：开启后第8天（周三）<br/>• 第二次复刻：开启后第15天（周三）<br/>• 所有复刻阁从「全体阁子减去超过18个月未复刻备选池」中动态挑选</div></div>`; }
