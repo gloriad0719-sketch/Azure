@@ -562,12 +562,12 @@
         { id:"five_29", star:5, officialName:"珐琅庭香", nick:"珐琅调香", firstStart:"2026-06-30", firstEnd:"2026-07-21", reissue:[], sets:["珐琅晴梦","闻香盛宴"], setParts:[10,11], signature:"珐琅香瓶", decomposeItems:["【帽子】白鹅亮翅","【发型】缱丝入梦","【连衣裙】夜赴金栏"] },
     ];
     const blindboxData = [
-        { id:"blindbox_1", name:"殷夜堇华", firstStart:"2023-12-29", firstEnd:"2024-03-26", rerunStart:"2026-03-17", rerunEnd:"2026-06-13", totalParts:10, signature:"殷夜花冠" },
-        { id:"blindbox_2", name:"旋梦王国", firstStart:"2024-04-08", firstEnd:"2024-07-05", rerunStart:"2026-03-17", rerunEnd:"2026-06-13", totalParts:10, signature:"旋梦权杖" },
-        { id:"blindbox_3", name:"霁梦花吻", firstStart:"2024-07-24", firstEnd:"2024-10-20", totalParts:10, signature:"花吻之息" },
+        { id:"blindbox_1", name:"殷夜堇华", firstStart:"2023-12-29", firstEnd:"2024-03-26", reissue:["2026-03-17"], totalParts:10, signature:"殷夜花冠" },
+        { id:"blindbox_2", name:"旋梦王国", firstStart:"2024-04-08", firstEnd:"2024-07-05",reissue:["2026-03-17"], totalParts:10, signature:"旋梦权杖" },
+        { id:"blindbox_3", name:"霁梦花吻", firstStart:"2024-07-24", firstEnd:"2024-10-20", reissue:["2026-07-21"],totalParts:10, signature:"花吻之息" },
         { id:"blindbox_10", name:"雪梦信使", firstStart:"2024-12-05", firstEnd:"2025-03-03", totalParts:10, signature:"雪梦信使" },
         { id:"blindbox_4", name:"谜兔狂想", firstStart:"2025-03-05", firstEnd:"2025-06-01", totalParts:10, signature:"谜兔之耳" },
-        { id:"blindbox_5", name:"天谪星砂", firstStart:"2025-06-07", firstEnd:"2025-09-03", totalParts:10, signature:"星砂之泪" },
+        { id:"blindbox_5", name:"天谪星砂", firstStart:"2025-06-07", firstEnd:"2025-09-03", reissue:["2026-07-21"],totalParts:10, signature:"星砂之泪" },
         { id:"blindbox_6", name:"骑士终章", firstStart:"2025-09-09", firstEnd:"2025-12-06", totalParts:10, signature:"骑士之盾" },
         { id:"blindbox_7", name:"瓷赋霓裳", firstStart:"2025-12-06", firstEnd:"2026-03-04", totalParts:10, signature:"霓裳羽衣" },
         { id:"blindbox_8", name:"华廷靡曼", firstStart:"2026-03-17", firstEnd:"2026-06-13", totalParts:10, signature:"靡曼之冠" },
@@ -1191,31 +1191,57 @@ for (const [nick, confirmed] of confirmedEntries) {
     }
 
     function renderBlindboxCard(store) {
-    // 只显示进行中的盲盒
     const now = new Date();
-    const sorted = [...blindboxData]
-        .filter(g => {
-            const start = new Date(g.firstStart);
-            const end = new Date(g.firstEnd);
-            return now >= start && now <= end;
-        })
-        .sort((a,b) => new Date(b.firstStart) - new Date(a.firstStart));
     
-    if (sorted.length === 0) {
+    // 获取所有盲盒（首次开阁 + 复刻）
+    const allActive = [];
+    
+    // 1. 首次开阁
+    for (const g of blindboxData) {
+        const start = new Date(g.firstStart);
+        const end = new Date(g.firstEnd);
+        if (now >= start && now <= end) {
+            allActive.push({ ...g, displayDate: `${g.firstStart} ~ ${g.firstEnd}`, type: "首次开阁" });
+        }
+    }
+    
+    // 2. 复刻（从 reissue 数组）
+    for (const g of blindboxData) {
+        if (g.reissue && g.reissue.length > 0) {
+            for (const rerunStart of g.reissue) {
+                const rerunEnd = new Date(rerunStart);
+                rerunEnd.setDate(rerunEnd.getDate() + 88);
+                if (now >= new Date(rerunStart) && now <= rerunEnd) {
+                    allActive.push({
+                        ...g,
+                        displayDate: `${rerunStart} ~ ${rerunEnd.toISOString().slice(0,10)}`,
+                        type: "复刻"
+                    });
+                    break;
+                }
+            }
+        }
+    }
+    
+    // 按开始时间排序
+    allActive.sort((a,b) => new Date(a.displayDate.split(' ~ ')[0]) - new Date(b.displayDate.split(' ~ ')[0]));
+    
+    if (allActive.length === 0) {
         return `<div class="home-current-panel" style="background: linear-gradient(135deg, #fef0e8, #fce4d8); border-color: #f0ccc0;">
             <div class="home-section-title" style="color:#b77d5e; border-left-color:#d9aa8b;">🎁 进行中的盲盒</div>
             <div style="padding:16px;color:#9b7b64;">暂无进行中的盲盒</div>
         </div>`;
     }
     
-    const html = sorted.map(g => {
+    const html = allActive.map(g => {
         const prog = getProgress(g.id, store);
         const collected = prog.collected ?? 0;
+        const typeLabel = g.type === '复刻' ? '<span style="font-size:0.6rem;background:#d9aa8b20;padding:2px 8px;border-radius:20px;color:#b77d5e;margin-left:8px;">复刻</span>' : '';
         return `<div class="current-card" data-jump-nick="${g.name}" style="cursor:pointer;">
-            <div class="current-name">${g.name}<span class="current-star-badge">盲盒</span></div>
-            <div class="current-date">📅 ${g.firstStart} ~ ${g.firstEnd}</div>
-        </div>`;
-    }).join('');
+        <div class="current-name">${g.name}<span class="current-star-badge">盲盒</span>${typeLabel}</div>
+        <div class="current-date">📅 ${g.displayDate}</div>
+    </div>`;
+}).join('');
     
     return `<div class="home-current-panel" style="background: linear-gradient(135deg, #fef0e8, #fce4d8); border-color: #f0ccc0;">
         <div class="home-section-title" style="color:#b77d5e; border-left-color:#d9aa8b;">🎁 进行中的盲盒</div>
