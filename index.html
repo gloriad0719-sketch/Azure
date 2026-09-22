@@ -872,6 +872,8 @@ for (const [nick, confirmed] of confirmedEntries) {
         // 3. 历史遗留的复刻阁（从 reissue 数组）
         for (const g of gachaData) { 
             for (let i = 0; i < g.reissue.length; i++) { 
+                // 跳过第三次及以后的复刻（由 getThirdReruns 单独处理）
+        if (i >= 2) continue;
                 const rerunStart = g.reissue[i]; 
                 const rerunEnd = new Date(rerunStart); 
                 rerunEnd.setDate(rerunEnd.getDate() + 21); 
