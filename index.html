@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>以闪亮之名 · 限时阁百科 | v2026.09.21</title>
+    <title>以闪亮之名 · 限时阁百科 | v2026.10.13</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.2s ease; }
         .menu-toggle {
@@ -458,7 +458,7 @@
         <button class="menu-toggle" id="menuToggle">☰</button>
         <div class="logo"id="logoHome" style="cursor:pointer;">
             <h1>✨ 以闪亮之名·阁录</h1>
-            <p>v2026.09.21.01 | 新增新五星阁，盲盒，三复</p>
+            <p>v2026.10.13.01 | 新增新六星阁</p>
         </div>
         <div class="nav-links">
             <a data-page="home" class="nav-item active">首页</a>
@@ -530,6 +530,7 @@
         { id:"six_28", star:6, officialName:"蕃神春醺·梦洄蕃野", nick:"小羊", firstStart:"2026-06-09", firstEnd:"2026-06-30", reissue:[], totalParts:14, signature:"月光曼影", decomposeItems:["【连衣裙】月光曼影","【手持】紫焰幽灵","【悬浮】星悬浮光","【背景】荷风灯影"] },
         { id:"six_29", star:6, officialName:"万世平戎·修罗归鞘", nick:"修罗", firstStart:"2026-07-21", firstEnd:"2026-08-11", reissue:[], totalParts:14, signature:"修罗之刃", decomposeItems:["【连衣裙】晨妆轻束","【悬浮】印痕留声","【悬浮】星光路亚","【背景】冷香抱雪"] },
         { id:"six_30", star:6, officialName:"神迹初石·圣翎祈世", nick:"彩蛋", firstStart:"2026-09-01", firstEnd:"2026-09-22", reissue:[], totalParts:14, signature:"顶流的蛋生", decomposeItems:["【连衣裙】如墨长歌","【头饰】聆风听愿","【手持】嘟嘟溢彩","【背景】光影行旅"] },
+        { id:"six_31", star:6, officialName:"浮生蝶梦·云笺蝶梦", nick:"蝴蝶", firstStart:"2026-10-13", firstEnd:"2026-11-03", reissue:[], totalParts:13, signature:"裁梦化蝶", decomposeItems:["【连衣裙】夜宴长歌","【悬浮】春野来信","【手持】星引弦月","【背景】繁花碎影"] },
     ];
     const fiveStarData = [
         { id:"five_1", star:5, officialName:"月下盛筵", nick:"敦煌华廷", firstStart:"2023-04-13", firstEnd:"2023-05-04", reissue:["2024-08-15","2025-09-23"], sets:["卧月灼莲","盛世华廷"], setParts:[11,10], signature:"飞天飘带", decomposeItems:["【发型】缭乱花篱","【连衣裙】月笼金沙","【手持】良辰花色"] },
@@ -586,13 +587,13 @@
     // 3. 注释或删除即可恢复动态预测
     const USER_CONFIRMED = {
         // 当您确认「小羊」的复刻时，取消下面的注释
-        "彩蛋": {
-            firstRerun: "石膏恶魔",
-            secondRerun: "蜀绣"
-        },
         "枫叶蔷薇": {
         firstRerun: "洋娃娃",
         secondRerun: "精灵苗疆"
+        },
+        "蝴蝶": {
+        firstRerun: "苗二雪花",
+        secondRerun: "阁楼"
     },
         // 可以同时确认多个阁子
         // "书卷凤凰": {
@@ -610,6 +611,7 @@
     const SHOW_WRONG_GUESS = false;
     // 更新日志数据（最新在上，前4条显示在首页和弹窗）
     const CHANGELOG_DATA = [
+        { date: "2026-10-13", content: "新增六星" },
         { date: "2026-09-21", content: "新增五星，盲盒，三复" },
         { date: "2026-08-31", content: "新增六星" },
         { date: "2026-08-08", content: "优化复刻预测：排除联动池" },
@@ -1498,7 +1500,7 @@ function getThirdReruns() {
                     "吸血鬼": "xixuegui.jpeg", "竖琴": "shuqin.jpeg", "圣域": "shengyu.jpeg", "傩母": "nuomu.jpeg",
                     "大月神": "shouyue.jpeg", "洋娃娃": "yangwawa.jpeg", "不死鸟": "businiao.jpeg", "玛丽": "mali.jpeg",
                     "白虎": "baihu.jpeg", "美杜莎": "meidusha.jpeg", "百合": "baihe.jpeg", "小羊": "xiaoyang.jpeg",
-                    "修罗": "xiuluo.jpeg", "彩蛋": "shengling.jpg"
+                    "修罗": "xiuluo.jpeg", "彩蛋": "shengling.jpg", "蝴蝶": "hudie.jpg"
                 };
                 const fiveStarMap = {
                     "卧月灼莲": "dunhuang.jpeg", "盛世华廷": "huating.jpg",
